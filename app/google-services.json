@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "585255299741",
+    "project_id": "cooktogether-806c6",
+    "storage_bucket": "cooktogether-806c6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585255299741:android:da84725003d96a2b954274",
+        "android_client_info": {
+          "package_name": "com.example.cooktogether"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCumPWiydhQLq4yUdKfsetLqCkD825KWio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
