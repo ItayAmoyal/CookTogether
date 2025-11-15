@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/HomePage_Logo">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginLeft="330dp"
+   >
+    <ImageButton
+        android:id="@+id/buttonSettings"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/Settings_logo"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        android:padding="6dp" />
+</LinearLayout>
+    <!-- TOP BAR: SEARCH + 3 DOTS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical">
+
+        <!-- SEARCH BAR -->
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="178dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_searchbar_white"
+            android:drawablePadding="10dp"
+            android:hint="Search recipes..."
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#777777" />
+
+        <!-- SETTINGS (3 DOTS) -->
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/SerchBar" />
+
+    </LinearLayout>
+
+    <!-- MAIN CONTENT -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- EMPTY LEFT SIDE -->
+            <ImageButton
+                android:id="@+id/FilterButton"
+                android:layout_width="130dp"
+                android:layout_height="58dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/rounded_imagebutton"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/Filters" />
+
+            <TextView
+            android:id="@+id/textSearchedRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Searched Recipes\nwill be\nshown here...."
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="80dp"
+            android:padding="8dp" />
+
+        <!-- RIGHT SIDE IMAGE BUTTONS -->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/recipeButton1"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/My_recipes_logo"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_imagebutton"
+                android:layout_marginBottom="14dp" />
+
+            <ImageButton
+                android:id="@+id/recipeButton2"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:src="@drawable/Create_recipe_logo"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_imagebutton"
+                android:layout_marginBottom="14dp" />
+
+            <ImageButton
+                android:id="@+id/recipeButton3"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_imagebutton"
+                android:src="@drawable/AI_FEATURES_LOGO"
+                android:layout_marginBottom="14dp" />
+
+            <ImageButton
+                android:id="@+id/recipeButton4"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:src="@drawable/FavRecipes"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_imagebutton" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
