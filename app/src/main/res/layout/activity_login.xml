@@ -6,7 +6,7 @@
     tools:context=".LoginActivity"
     android:clipToOutline="true"
     android:scaleType="centerCrop"
-    android:background="@drawable/LoginActivity_logo">
+    android:background="@drawable/loginactivity_logo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Don't have an account?"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:layout_marginTop="20dp" />
