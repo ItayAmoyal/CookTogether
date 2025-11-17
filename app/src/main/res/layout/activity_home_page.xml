@@ -25,7 +25,6 @@
             android:padding="6dp" />
     </LinearLayout>
 
-    <!-- SEARCH BAR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,9 +32,15 @@
         android:layout_marginTop="20dp"
         android:gravity="center_vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+        >
         <EditText
             android:id="@+id/editTextSearch"
-            android:layout_width="178dp"
+            android:layout_width="278dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/bg_searchbar_white"
@@ -44,7 +49,18 @@
             android:padding="12dp"
             android:textColor="#333333"
             android:textColorHint="#777777" />
-
+            <ImageButton
+                android:id="@+id/FilterButton"
+                android:layout_width="70dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/rounded_imagebutton"
+                android:clipToOutline="true"
+                android:contentDescription="Filters"
+                android:scaleType="centerCrop"
+                android:src="@drawable/filters" />
+        </LinearLayout>
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="100dp"
@@ -70,16 +86,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/FilterButton"
-                android:layout_width="130dp"
-                android:layout_height="58dp"
-                android:layout_marginBottom="14dp"
-                android:background="@drawable/rounded_imagebutton"
-                android:clipToOutline="true"
-                android:contentDescription="Filters"
-                android:scaleType="centerCrop"
-                android:src="@drawable/filters" />
+
 
             <TextView
                 android:id="@+id/textSearchedRecipes"
