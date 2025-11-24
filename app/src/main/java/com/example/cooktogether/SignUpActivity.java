@@ -20,7 +20,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -56,8 +62,13 @@ public class SignUpActivity extends AppCompatActivity {
             refAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    pd.dismiss();
                     if (task.isSuccessful()) {
-                        pd.dismiss();
+                        FirebaseUser user=refAuth.getCurrentUser();
+                        User user1=new User(name,user.getUid(),email,password);
+                        //הכנסה לפיירבייס
+
+
                         Toast.makeText(SignUpActivity.this, "User Created", Toast.LENGTH_SHORT).show();
                         refAuth.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(name).build()).
                                 addOnCompleteListener(profileTask -> {
@@ -66,7 +77,25 @@ public class SignUpActivity extends AppCompatActivity {
                                         startActivity(intentLogin);
                                     }
                                     else {
-                                        Toast.makeText(SignUpActivity.this, "User not created", Toast.LENGTH_SHORT).show();
+                                        Exception exp =task.getException();
+                                        if (exp instanceof FirebaseAuthInvalidUserException){
+                                            Toast.makeText(SignUpActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if (exp instanceof FirebaseAuthWeakPasswordException){
+                                            Toast.makeText(SignUpActivity.this, "Password is too week", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if (exp instanceof FirebaseAuthUserCollisionException){
+                                            Toast.makeText(SignUpActivity.this, "User already exists", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if (exp instanceof FirebaseAuthInvalidCredentialsException){
+                                            Toast.makeText(SignUpActivity.this, "General authentication faliure", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if (exp instanceof FirebaseNetworkException){
+                                            Toast.makeText(SignUpActivity.this, "Network error. Check your connection", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            Toast.makeText(SignUpActivity.this, "An error occurred, Please try again later", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                     }

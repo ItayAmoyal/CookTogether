@@ -1,5 +1,7 @@
 package com.example.cooktogether;
 
+import static com.example.cooktogether.FBRef.refAuth;
+
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;

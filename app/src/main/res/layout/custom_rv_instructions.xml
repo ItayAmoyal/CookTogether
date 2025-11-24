@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_margin="8dp"
+    >
+
+    <!-- Instruction text -->
+    <TextView
+        android:id="@+id/textInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Mix all ingredients together."
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <!-- Preview image for this instruction -->
+    <ImageView
+        android:id="@+id/imageInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:background="#DDDDDD"
+        android:contentDescription="Instruction image" />
+</LinearLayout>
+

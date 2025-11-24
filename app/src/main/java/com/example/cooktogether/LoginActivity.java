@@ -14,8 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -42,6 +47,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        refAuth.signOut();
+        super.onDestroy();
+    }
+
     public void loginUser(View view){
         EditText email1 =findViewById(R.id.editTextEmail);
         EditText pass=findViewById(R.id.editTextPassword);
@@ -62,14 +74,28 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "User Logged in successfully", Toast.LENGTH_SHORT).show();
                         FirebaseUser user=refAuth.getCurrentUser();
-                        Intent intent=new Intent(LoginActivity.this, SignUpActivity.class);
+                        Intent intent=new Intent(LoginActivity.this, HomePageActivity.class);
+                        intent.putExtra("Uid",user.getUid());
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(LoginActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
+                            Exception exp = task.getException();
+                            if (exp instanceof FirebaseAuthInvalidUserException) {
+                                Toast.makeText(LoginActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                            } else if (exp instanceof FirebaseAuthWeakPasswordException) {
+                                Toast.makeText(LoginActivity.this, "Password is too week", Toast.LENGTH_SHORT).show();
+                            } else if (exp instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(LoginActivity.this, "User already exists", Toast.LENGTH_SHORT).show();
+                            } else if (exp instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(LoginActivity.this, "General authentication faliure", Toast.LENGTH_SHORT).show();
+                            } else if (exp instanceof FirebaseNetworkException) {
+                                Toast.makeText(LoginActivity.this, "Network error. Check your connection", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "An error occurred, Please try again later", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
-}
