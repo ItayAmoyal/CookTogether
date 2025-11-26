@@ -1,59 +1,73 @@
+package com.example.cooktogether;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cooktogether.R;
+import com.bumptech.glide.Glide;
+import java.util.ArrayList;
 
 public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapter.InstructionViewHolder> {
 
-    private
-    Context context;
-    private String[] instruction;
-    private String[] pictures;
+    private Context context;
+    private ArrayList<InstructionItem> instructionList;
 
-    public InstructionsAdapter(Context context, String[] nameList) {
+    public InstructionsAdapter(Context context, ArrayList<InstructionItem> instructionList) {
         this.context = context;
-        this.nameList = nameList;
-        this.amountList = amountList;
+        this.instructionList = instructionList;
     }
 
     @NonNull
     @Override
-    public com.example.cooktogether.IngredientsAdapter.InstructionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // inflate your row layout
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_lv_ingridiants, parent, false);
-        return new com.example.cooktogether.IngredientsAdapter.InstructionViewHolder(view);
+    public InstructionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.custom_rv_instructions, parent, false);
+        return new InstructionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull com.example.cooktogether.IngredientsAdapter.IngredientViewHolder holder, int position) {
-        String name = nameList[position];
-        String amount = amountList[position];
+    public void onBindViewHolder(@NonNull InstructionViewHolder holder, int position) {
+        InstructionItem item = instructionList.get(position);
 
-        holder.nameText.setText(name);
-        holder.amountText.setText(amount);
+        holder.textInstruction.setText(item.getInstructionText());
+
+        if (item.getImageUri() != null) {
+            Glide.with(context)
+                    .load(item.getImageUri())
+                    .placeholder(android.R.color.darker_gray)
+                    .into(holder.imageInstruction);
+        } else {
+            holder.imageInstruction.setImageResource(android.R.color.darker_gray);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return nameList.length;
+        return instructionList.size();
     }
 
-    // ViewHolder inner class
-    static class IngredientViewHolder extends RecyclerView.ViewHolder {
+    public static class InstructionViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nameText;
-        TextView amountText;
+        TextView textInstruction;
+        ImageView imageInstruction;
 
-        public IngredientViewHolder(@NonNull View itemView) {
+        public InstructionViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameText = itemView.findViewById(R.id.ingrediantNamee);
-            amountText = itemView.findViewById(R.id.ingrediantAmount);
+
+            textInstruction = itemView.findViewById(R.id.textInstruction);
+            imageInstruction = itemView.findViewById(R.id.imageInstruction);
         }
     }
 }
+
