@@ -2,19 +2,24 @@ package com.example.cooktogether;
 
 import java.util.ArrayList;
 
-public class recipe {
+public class Recipe {
     private String name;
     private String Uid;
+    private String RecipeID;
     private ArrayList<InstructionItem> Instructions;
     private String CookTime;
     private String picture;
-    private Filters[] FilterArray;
     private double averageRatingSum;
     private double averageRating;
    private int averageratingCount;
     private ArrayList<Ingridiants> ingridiantsArrayList;
 
-    public recipe(String name, String MadeRecipe) {
+
+
+    public Recipe(){
+
+    }
+    public Recipe(String name, String MadeRecipe) {
         this.name = name;
         this.Uid = MadeRecipe;
         averageRatingSum = 0;
@@ -36,6 +41,25 @@ public class recipe {
 
     public String getUid() {
         return Uid;
+    }
+
+    public String getRecipeID() {
+        return RecipeID;
+    }
+    public void setPicture(String picture){
+        this.picture=picture;
+    }
+
+    public void setIngridiantsArrayList(ArrayList<Ingridiants> ingridiantsArrayList) {
+        this.ingridiantsArrayList = ingridiantsArrayList;
+    }
+
+    public void setInstructions(ArrayList<InstructionItem> instructions) {
+        Instructions = instructions;
+    }
+
+    public void setRecipeID(String recipeID) {
+        RecipeID = recipeID;
     }
 
     public void setAverageRating(double averageRating) {
@@ -63,9 +87,6 @@ public class recipe {
         return Instructions;
     }
 
-    public Filters[] getFilterArray() {
-        return FilterArray;
-    }
 
     public double getAverageRating() {
         return averageRating;
@@ -79,4 +100,12 @@ public class recipe {
     public String getPicture() {
         return picture;
     }
+    public void setAverageratingCount(int averageratingCount) {
+        this.averageratingCount = averageratingCount;
+    }
+
+    public void setAverageRatingSum(double averageRatingSum) {
+        this.averageRatingSum = averageRatingSum;
+    }
+
 }
