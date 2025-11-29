@@ -7,6 +7,11 @@ public class Comments {
         this.comment=comment;
         this.whoCommentName=whoCommentName;
     }
+    public Comments(Comments other){
+        this.whoCommentName = other.whoCommentName;
+        this.comment = other.comment;
+
+    }
 
     public String getComment() {
         return comment;

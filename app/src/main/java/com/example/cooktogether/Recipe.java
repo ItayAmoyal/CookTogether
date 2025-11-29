@@ -17,11 +17,25 @@ public class Recipe {
 
 
     public Recipe(){
+    }
+    public Recipe(Recipe r) {
+        this.name = r.name;
+        this.Uid = r.Uid;
+        this.RecipeID = r.RecipeID;
 
+        this.Instructions = new ArrayList<>(r.Instructions);
+
+        this.ingridiantsArrayList = new ArrayList<>(r.ingridiantsArrayList);
+
+        this.CookTime = r.CookTime;
+        this.picture = r.picture;
+        this.averageRatingSum = r.averageRatingSum;
+        this.averageRating = r.averageRating;
+        this.averageratingCount = r.averageratingCount;
     }
     public Recipe(String name, String MadeRecipe) {
         this.name = name;
-        this.Uid = MadeRecipe;
+        this.RecipeID = MadeRecipe;
         averageRatingSum = 0;
         averageratingCount = 0;
         averageRating = 0;
