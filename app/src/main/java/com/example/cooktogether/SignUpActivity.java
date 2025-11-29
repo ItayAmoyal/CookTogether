@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
                     pd.dismiss();
                     if (task.isSuccessful()) {
                         FirebaseUser user=refAuth.getCurrentUser();
-                        User user1=new User(name,user.getUid(),email,password);
+                        User user1=new User(name,user.getUid());
                         //הכנסה לפיירבייס
 
 
