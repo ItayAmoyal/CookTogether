@@ -9,6 +9,9 @@ public class Filters {
             this.ActiveFilters.add(filter);
         }
     }
+    public Filters(){
+
+    }
     public void addFilter(String filter) {
         int count=0;
         for(String filterIn:this.ActiveFilters){

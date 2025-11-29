@@ -9,6 +9,9 @@ public class Ingridiants {
         this.typeAmount=typeAmount;
         this.Name=name;
     }
+    public Ingridiants(){
+
+    }
 
     public String getName() {
         return Name;

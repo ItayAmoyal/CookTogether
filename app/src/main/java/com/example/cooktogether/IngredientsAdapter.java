@@ -9,17 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder> {
 
     private
     Context context;
-    private String[] nameList;
-    private String[] amountList;
+    private ArrayList<Ingridiants> ingridiants;
 
-    public IngredientsAdapter(Context context, String[] nameList, String[] amountList) {
+    public IngredientsAdapter(Context context, ArrayList<Ingridiants>ingridiants) {
         this.context = context;
-        this.nameList = nameList;
-        this.amountList = amountList;
+        this.ingridiants = ingridiants;
     }
 
     @NonNull
@@ -32,16 +32,14 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
-        String name = nameList[position];
-        String amount = amountList[position];
-
-        holder.nameText.setText(name);
-        holder.amountText.setText(amount);
+        Ingridiants ingridiants1=this.ingridiants.get(position);
+        holder.amountText.setText(ingridiants1.getTypeAmount());
+        holder.nameText.setText(ingridiants1.getName());
     }
 
     @Override
     public int getItemCount() {
-        return nameList.length;
+        return ingridiants.size();
     }
 
     // ViewHolder inner class

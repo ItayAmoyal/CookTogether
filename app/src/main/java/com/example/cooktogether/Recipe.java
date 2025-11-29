@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Recipe {
     private String name;
     private String Uid;
-    private String RecipeID;
+    private String recipeID;
     private ArrayList<InstructionItem> Instructions;
     private String CookTime;
     private String picture;
@@ -21,7 +21,7 @@ public class Recipe {
     public Recipe(Recipe r) {
         this.name = r.name;
         this.Uid = r.Uid;
-        this.RecipeID = r.RecipeID;
+        this.recipeID = r.recipeID;
 
         this.Instructions = new ArrayList<>(r.Instructions);
 
@@ -35,7 +35,7 @@ public class Recipe {
     }
     public Recipe(String name, String MadeRecipe) {
         this.name = name;
-        this.RecipeID = MadeRecipe;
+        this.recipeID = MadeRecipe;
         averageRatingSum = 0;
         averageratingCount = 0;
         averageRating = 0;
@@ -58,7 +58,7 @@ public class Recipe {
     }
 
     public String getRecipeID() {
-        return RecipeID;
+        return recipeID;
     }
     public void setPicture(String picture){
         this.picture=picture;
@@ -73,7 +73,7 @@ public class Recipe {
     }
 
     public void setRecipeID(String recipeID) {
-        RecipeID = recipeID;
+        this.recipeID = recipeID;
     }
 
     public void setAverageRating(double averageRating) {

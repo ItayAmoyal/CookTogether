@@ -13,6 +13,9 @@ public class User {
         this.Name=name;
         this.Uid=Uid;
     }
+    public User(){
+
+    }
 
 
     public String getName() {
