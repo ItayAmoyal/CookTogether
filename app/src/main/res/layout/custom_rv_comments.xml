@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="@drawable/bg_comment_box"
+    android:background="@drawable/bg_ingrediant_row2"
     android:layout_margin="8dp">
 
     <TextView

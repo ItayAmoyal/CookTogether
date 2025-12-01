@@ -9,8 +9,9 @@ public class Recipe {
     private ArrayList<InstructionItem> Instructions;
     private String CookTime;
     private String picture;
-    private double averageRatingSum;
-    private double averageRating;
+    private int averageRatingSum;
+    private int averageRating;
+    ArrayList<String> uidRated=new ArrayList<>();
    private int averageratingCount;
     private ArrayList<Ingridiants> ingridiantsArrayList;
 
@@ -18,6 +19,38 @@ public class Recipe {
 
     public Recipe(){
     }
+    public Boolean AddRating(int num,String uid){
+        int count=0;
+        if(uidRated==null){
+            averageRatingSum = num + averageRatingSum;
+            averageratingCount++;
+            averageRating = averageRatingSum / averageratingCount;
+            uidRated.add(uid);
+            return true;
+        }
+        else {
+            for (String uid1 : uidRated) {
+                if (uid1.equals(uid))
+                    count++;
+            }
+            if (count == 0) {
+                averageRatingSum = num + averageRatingSum;
+                averageratingCount++;
+                averageRating = averageRatingSum / averageratingCount;
+                uidRated.add(uid);
+                return true;
+            } else return false;
+        }
+    }
+
+    public ArrayList<String> getUidRated() {
+        return uidRated;
+    }
+
+    public void setUidRated(ArrayList<String> uidRated) {
+        this.uidRated = uidRated;
+    }
+
     public Recipe(Recipe r) {
         this.name = r.name;
         this.Uid = r.Uid;
@@ -76,11 +109,11 @@ public class Recipe {
         this.recipeID = recipeID;
     }
 
-    public void setAverageRating(double averageRating) {
+    public void setAverageRating(int averageRating) {
         this.averageRating = averageRating;
     }
 
-    public double getAverageRatingSum() {
+    public int getAverageRatingSum() {
         return averageRatingSum;
     }
 
@@ -102,7 +135,7 @@ public class Recipe {
     }
 
 
-    public double getAverageRating() {
+    public int getAverageRating() {
         return averageRating;
     }
 
@@ -118,7 +151,7 @@ public class Recipe {
         this.averageratingCount = averageratingCount;
     }
 
-    public void setAverageRatingSum(double averageRatingSum) {
+    public void setAverageRatingSum(int averageRatingSum) {
         this.averageRatingSum = averageRatingSum;
     }
 
