@@ -2,6 +2,7 @@ package com.example.cooktogether;
 
 import static com.example.cooktogether.FBRef.refAuth;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -21,12 +22,13 @@ import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
     RecyclerView rvAllrecipes;
+    RecipeAdapter recipeAdapter;
     ArrayList<Recipe> allRecipes=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        rvAllrecipes=findViewById(R.id.rvAllrecipes);
+        rvAllrecipes=findViewById(R.id.rvAllRecipes);
 
 
         //קריאת נתונים
@@ -41,14 +43,21 @@ public class HomePageActivity extends AppCompatActivity {
                    allRecipes.add(currentRecipe);
                 }
                 rvAllrecipes.setLayoutManager(new LinearLayoutManager(HomePageActivity.this));
-                RecipeAdapter recipeAdapter=new RecipeAdapter(HomePageActivity.this,allRecipes);
+                recipeAdapter=new RecipeAdapter(HomePageActivity.this,allRecipes);
                 rvAllrecipes.setAdapter(recipeAdapter);
-            }
+                recipeAdapter.setOnRecipeClickListener(position -> {
+                    Recipe clicked = allRecipes.get(position);
+                    Intent intent=new Intent(HomePageActivity.this, RecipeActivity.class);
+                    intent.putExtra("Rid",clicked.getRecipeID());
+                    startActivity(intent);
+                });
 
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
     }
 }

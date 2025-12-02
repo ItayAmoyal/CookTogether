@@ -3,7 +3,6 @@ package com.example.cooktogether;
 import static com.example.cooktogether.FBRef.refAuth;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.Firebase;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -91,8 +87,8 @@ public class RecipeActivity extends AppCompatActivity {
             }
         });
         //get the RecipeId
-
-        String Rid = "Itay2202";
+        Intent intent=getIntent();
+        String CorrectRid = intent.getStringExtra("Rid");
         //Example for data
         Recipe recipe1 = new Recipe("Chicken Fried", "Itay");
         recipe1.setRecipeID("Itay2202");
@@ -111,9 +107,9 @@ public class RecipeActivity extends AppCompatActivity {
         recipe1.setInstructions(instructionItems);
         recipe1.setAverageRating(3);
 
-        Comments comments1=new Comments("user123", "Looks delicious!",Rid);
-        Comments comments2=new Comments("user456", "I tried this and it was amazing.",Rid);
-        Comments comments3=new Comments("user789", "Can I replace butter with oil?",Rid);
+        Comments comments1=new Comments("user123", "Looks delicious!", CorrectRid);
+        Comments comments2=new Comments("user456", "I tried this and it was amazing.", CorrectRid);
+        Comments comments3=new Comments("user789", "Can I replace butter with oil?", CorrectRid);
 
         String keyId1=FBRef.refComments.push().getKey();
         comments1.setKeyId(keyId1);
@@ -122,13 +118,15 @@ public class RecipeActivity extends AppCompatActivity {
         String keyId3=FBRef.refComments.push().getKey();
         comments3.setKeyId(keyId3);
         //הכנסת נתונים(דוגמא)
-        FBRef.refAllRecipes.child(Rid).setValue(recipe1);
+        for (int i = 0; i <6 ; i++) {
+            FBRef.refAllRecipes.child((Integer.toString(i))).setValue(recipe1);
+        }
         //קריאת נתונים
-        GetRecipeFromFireBase(Rid);
+        GetRecipeFromFireBase(CorrectRid);
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddCommment(Rid);
+                AddCommment(CorrectRid);
             }
         });
         submitRating.setOnClickListener(new View.OnClickListener() {
