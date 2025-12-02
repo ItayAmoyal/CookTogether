@@ -6,7 +6,6 @@
     android:padding="16dp"
     android:background="@drawable/homepage_logo">
 
-    <!-- SETTINGS BUTTON (TOP RIGHT) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,30 +74,23 @@
             android:src="@drawable/serchbar" />
     </LinearLayout>
 
-    <!-- MAIN CONTENT -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
 
-        <!-- LEFT SIDE -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-
-            <TextView
-                android:id="@+id/textSearchedRecipes"
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAllrecipes"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Searched Recipes\nwill be\nshown here...."
-                android:textSize="24sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="80dp"
-                android:padding="8dp" />
+                android:nestedScrollingEnabled="false" />
+
         </LinearLayout>
 
         <!-- RIGHT SIDE BUTTONS -->

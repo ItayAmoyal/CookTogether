@@ -124,7 +124,7 @@ public class RecipeActivity extends AppCompatActivity {
         //הכנסת נתונים(דוגמא)
         FBRef.refAllRecipes.child(Rid).setValue(recipe1);
         //קריאת נתונים
-        GetRecipeIdFromFireBase(Rid);
+        GetRecipeFromFireBase(Rid);
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +143,7 @@ public class RecipeActivity extends AppCompatActivity {
     //פעולות
 
     //תצוגת המתכון על המסך
-    private void GetRecipeIdFromFireBase(String correctRid) {
+    private void GetRecipeFromFireBase(String correctRid) {
         Query query=FBRef.refAllRecipes.orderByChild("recipeID").equalTo(correctRid);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
