@@ -4,6 +4,9 @@ import static com.example.cooktogether.FBRef.refAuth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -29,8 +32,14 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         rvAllrecipes=findViewById(R.id.rvAllRecipes);
-
-
+        ImageButton recipebutton=findViewById(R.id.recipeButton1);
+        recipebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomePageActivity.this,RecipeActivity.class);
+                startActivity(intent);
+            }
+        });
         //קריאת נתונים
         ShowAllRecipes();
     }

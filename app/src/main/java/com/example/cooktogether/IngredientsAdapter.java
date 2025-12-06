@@ -15,9 +15,9 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     private
     Context context;
-    private ArrayList<Ingridiants> ingridiants;
+    private ArrayList<Ingredient> ingridiants;
 
-    public IngredientsAdapter(Context context, ArrayList<Ingridiants>ingridiants) {
+    public IngredientsAdapter(Context context, ArrayList<Ingredient>ingridiants) {
         this.context = context;
         this.ingridiants = ingridiants;
     }
@@ -32,8 +32,8 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
-        Ingridiants ingridiants1=this.ingridiants.get(position);
-        holder.amountText.setText(ingridiants1.getTypeAmount());
+        Ingredient ingridiants1=this.ingridiants.get(position);
+        holder.amountText.setText(ingridiants1.getUnit());
         holder.nameText.setText(ingridiants1.getName());
     }
 

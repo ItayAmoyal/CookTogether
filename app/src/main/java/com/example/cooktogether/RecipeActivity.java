@@ -88,29 +88,30 @@ public class RecipeActivity extends AppCompatActivity {
         });
         //get the RecipeId
         Intent intent=getIntent();
-        String CorrectRid = intent.getStringExtra("Rid");
+        String correctRid = intent.getStringExtra("Rid");
         //Example for data
         Recipe recipe1 = new Recipe("Chicken Fried", "Itay");
-        recipe1.setRecipeID("Itay2202");
+        recipe1.setRecipeID(correctRid);
         recipe1.setCookTime("2 min");
         recipe1.setAverageRating(3);
         String imageUri = "android.resource://" + getPackageName() + "/" + R.drawable.favrecipes;
         recipe1.setPicture(imageUri);
         String[] names = {"oil", "eggs", "butter"};
         String[] amount = {"2", "4", "5"};
-        ArrayList<Ingridiants> ingridiants = new ArrayList<>();
-        ingridiants.add(new Ingridiants(32, "grams", "Oil"));
-        ingridiants.add(new Ingridiants(40, "Ounces", "Chicken"));
+        ArrayList<Ingredient> ingridiants = new ArrayList<>();
+        ingridiants.add(new Ingredient("32", "grams", "Oil"));
+        ingridiants.add(new Ingredient("40", "Ounces", "Chicken"));
         recipe1.setIngridiantsArrayList(ingridiants);
         ArrayList<InstructionItem> instructionItems = new ArrayList<>();
         instructionItems.add(new InstructionItem("Bake the cookie", null));
         recipe1.setInstructions(instructionItems);
         recipe1.setAverageRating(3);
 
-        Comments comments1=new Comments("user123", "Looks delicious!", CorrectRid);
-        Comments comments2=new Comments("user456", "I tried this and it was amazing.", CorrectRid);
-        Comments comments3=new Comments("user789", "Can I replace butter with oil?", CorrectRid);
-
+        Comments comments1=new Comments("user123", "Looks delicious!", correctRid);
+        Comments comments2=new Comments("user456", "I tried this and it was amazing.", correctRid);
+        Comments comments3=new Comments("user789", "Can I replace butter with oil?", correctRid);
+        Recipe recipe2=new Recipe(recipe1);
+        recipe2.setRecipeID("taim");
         String keyId1=FBRef.refComments.push().getKey();
         comments1.setKeyId(keyId1);
         String keyId2=FBRef.refComments.push().getKey();
@@ -118,15 +119,14 @@ public class RecipeActivity extends AppCompatActivity {
         String keyId3=FBRef.refComments.push().getKey();
         comments3.setKeyId(keyId3);
         //הכנסת נתונים(דוגמא)
-        for (int i = 0; i <6 ; i++) {
-            FBRef.refAllRecipes.child((Integer.toString(i))).setValue(recipe1);
-        }
+        FBRef.refAllRecipes.child(("yami")).setValue(recipe1);
+        FBRef.refAllRecipes.child(("taim")).setValue(recipe2);
         //קריאת נתונים
-        GetRecipeFromFireBase(CorrectRid);
+        GetRecipeFromFireBase(correctRid);
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddCommment(CorrectRid);
+                AddCommment(correctRid);
             }
         });
         submitRating.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +192,7 @@ public class RecipeActivity extends AppCompatActivity {
             Toast.makeText(this, "No recipe to show", Toast.LENGTH_SHORT).show();
             return;
         }
-        cooktime.setText("CookTime: "+activeRecipe.getCookTime());
+        cooktime.setText("CookTime: "+activeRecipe.getRecipeID());
         recipeTitle.setText(activeRecipe.getName().toString());
         Glide.with(this)
                 .load(activeRecipe.getPicture())
@@ -207,7 +207,7 @@ public class RecipeActivity extends AppCompatActivity {
        CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
         rvComments.setAdapter(commentsAdapter);
         for (int i = 0; i < activeRecipe.getAverageRating(); i++) {
-            recipeRatings[i].setImageResource(R.drawable.emptystar);
+            recipeRatings[i].setImageResource(R.drawable.fullstar);
         }
     }
     //הוספת תגובה
@@ -226,6 +226,7 @@ public class RecipeActivity extends AppCompatActivity {
     private void AddRating(int num){
         if( activeRecipe.AddRating(num,"Itay")==true) {
             setRecipeRating(activeRecipe.getAverageRating());
+            FBRef.refAllRecipes.child(activeRecipe.getRecipeID()).setValue(activeRecipe);
             Toast.makeText(this, "Rating Added", Toast.LENGTH_SHORT).show();
         }
         else{

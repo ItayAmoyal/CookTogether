@@ -11,9 +11,9 @@ public class Recipe {
     private String picture;
     private int averageRatingSum;
     private int averageRating;
-    ArrayList<String> uidRated=new ArrayList<>();
+    ArrayList<String> uidRated;
    private int averageratingCount;
-    private ArrayList<Ingridiants> ingridiantsArrayList;
+    private ArrayList<Ingredient> ingridiantsArrayList;
 
 
 
@@ -59,7 +59,7 @@ public class Recipe {
         this.Instructions = new ArrayList<>(r.Instructions);
 
         this.ingridiantsArrayList = new ArrayList<>(r.ingridiantsArrayList);
-
+        this.uidRated=r.uidRated;
         this.CookTime = r.CookTime;
         this.picture = r.picture;
         this.averageRatingSum = r.averageRatingSum;
@@ -72,6 +72,7 @@ public class Recipe {
         averageRatingSum = 0;
         averageratingCount = 0;
         averageRating = 0;
+        uidRated=new ArrayList<>();
     }
 
     public void setName(String name) {
@@ -97,7 +98,7 @@ public class Recipe {
         this.picture=picture;
     }
 
-    public void setIngridiantsArrayList(ArrayList<Ingridiants> ingridiantsArrayList) {
+    public void setIngridiantsArrayList(ArrayList<Ingredient> ingridiantsArrayList) {
         this.ingridiantsArrayList = ingridiantsArrayList;
     }
 
@@ -125,7 +126,7 @@ public class Recipe {
         return CookTime;
     }
 
-    public ArrayList<Ingridiants> getIngridiantsArrayList() {
+    public ArrayList<Ingredient> getIngridiantsArrayList() {
         return ingridiantsArrayList;
     }
 
