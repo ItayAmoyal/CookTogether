@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Recipe {
     private String name;
-    private String Uid;
+    private String uid;
     private String recipeID;
-    private ArrayList<InstructionItem> Instructions;
-    private String CookTime;
+    private ArrayList<InstructionItem> instructions;
+    private String cookTime;
     private String picture;
+    private String difficulty;
     private int averageRatingSum;
     private int averageRating;
     ArrayList<String> uidRated;
@@ -22,6 +23,7 @@ public class Recipe {
     public Boolean AddRating(int num,String uid){
         int count=0;
         if(uidRated==null){
+            uidRated = new ArrayList<>();
             averageRatingSum = num + averageRatingSum;
             averageratingCount++;
             averageRating = averageRatingSum / averageratingCount;
@@ -47,20 +49,28 @@ public class Recipe {
         return uidRated;
     }
 
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
     public void setUidRated(ArrayList<String> uidRated) {
         this.uidRated = uidRated;
     }
 
     public Recipe(Recipe r) {
         this.name = r.name;
-        this.Uid = r.Uid;
+        this.uid = r.uid;
         this.recipeID = r.recipeID;
 
-        this.Instructions = new ArrayList<>(r.Instructions);
+        this.instructions = new ArrayList<>(r.instructions);
 
         this.ingridiantsArrayList = new ArrayList<>(r.ingridiantsArrayList);
         this.uidRated=r.uidRated;
-        this.CookTime = r.CookTime;
+        this.cookTime = r.cookTime;
         this.picture = r.picture;
         this.averageRatingSum = r.averageRatingSum;
         this.averageRating = r.averageRating;
@@ -73,6 +83,12 @@ public class Recipe {
         averageratingCount = 0;
         averageRating = 0;
         uidRated=new ArrayList<>();
+        cookTime="";
+        difficulty="";
+        uid="";
+        instructions=new ArrayList<>();
+        ingridiantsArrayList=new ArrayList<>();
+        picture="";
     }
 
     public void setName(String name) {
@@ -84,11 +100,11 @@ public class Recipe {
     }
 
     public void setUid(String uid) {
-        Uid = uid;
+        this.uid = uid;
     }
 
     public String getUid() {
-        return Uid;
+        return uid;
     }
 
     public String getRecipeID() {
@@ -103,7 +119,7 @@ public class Recipe {
     }
 
     public void setInstructions(ArrayList<InstructionItem> instructions) {
-        Instructions = instructions;
+        this.instructions = instructions;
     }
 
     public void setRecipeID(String recipeID) {
@@ -123,7 +139,7 @@ public class Recipe {
     }
 
     public String getCookTime() {
-        return CookTime;
+        return cookTime;
     }
 
     public ArrayList<Ingredient> getIngridiantsArrayList() {
@@ -132,7 +148,7 @@ public class Recipe {
 
 
     public ArrayList<InstructionItem> getInstructions() {
-        return Instructions;
+        return instructions;
     }
 
 
@@ -142,7 +158,7 @@ public class Recipe {
 
 
     public void setCookTime(String cookTime) {
-        CookTime = cookTime;
+        this.cookTime = cookTime;
     }
 
     public String getPicture() {

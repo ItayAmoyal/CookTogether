@@ -1,5 +1,7 @@
 package com.example.cooktogether;
 
+import static com.example.cooktogether.CreateRecipe.numOfIngridiants;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +71,7 @@ public class IngrediantCreateAdapter extends RecyclerView.Adapter<IngrediantCrea
             btnDelete.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
+                    numOfIngridiants--;
                     ingredients.remove(pos);
                     notifyItemRemoved(pos);
                 }

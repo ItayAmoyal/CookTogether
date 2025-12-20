@@ -2,23 +2,23 @@ package com.example.cooktogether;
 
 public class Ingredient {
     private String amount;
-    private String Unit;
-    private String Name;
+    private String unit;
+    private String name;
     public Ingredient(String amount, String typeAmount, String name){
         this.amount=amount;
-        this.Unit =typeAmount;
-        this.Name=name;
+        this.unit =typeAmount;
+        this.name =name;
     }
     public Ingredient(){
 
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getAmount() {
@@ -26,7 +26,7 @@ public class Ingredient {
     }
 
     public String getUnit() {
-        return Unit;
+        return unit;
     }
 
     public void setAmount(String amount) {
@@ -34,6 +34,6 @@ public class Ingredient {
     }
 
     public void setUnit(String unit) {
-        this.Unit = unit;
+        this.unit = unit;
     }
 }

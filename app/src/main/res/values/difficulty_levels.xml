@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="difficulty_levels">
-        <item>Choose a difficulty:</item>
+        <item> Unit measure:</item>
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>

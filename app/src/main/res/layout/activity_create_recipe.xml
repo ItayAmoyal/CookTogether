@@ -26,12 +26,13 @@
             android:id="@+id/textCreateTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             android:text="Create Recipe"
             android:textColor="#000"
             android:textSize="28sp"
             android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etRecipeTitle"
+            android:id="@+id/etRecipeTitle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_comment_edittext"
@@ -50,10 +51,10 @@
             android:textColor="#000000"
             android:textColorHint="#888888"
             android:textSize="16sp"
-            android:inputType="textCapWords" />
+            />
 
         <ImageView
-            android:id="@+id/imageRecipePreview"
+            android:id="@+id/imageRecipe"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:layout_marginTop="16dp"
@@ -101,7 +102,6 @@
             android:background="@drawable/bg_comment_edittext"
             android:gravity="top|start"
             android:hint="Enter Cook Time... "
-            android:inputType="number"
             android:padding="16dp"
             android:textColor="#000000"
             android:textColorHint="#888888"
@@ -196,7 +196,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_comment_edittext"
             android:gravity="top|start"
-            android:hint="Write the steps here..."
+            android:hint="Write the step here..."
             android:inputType="textMultiLine"
             android:padding="16dp"
             android:textColor="#000000"

@@ -1,5 +1,7 @@
 package com.example.cooktogether;
 
+import static com.example.cooktogether.CreateRecipe.numOfInstructions;
+
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -57,7 +59,7 @@ public class InstructionCreateAdapter extends RecyclerView.Adapter<InstructionCr
         holder.btnDeleteInstruction.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
             if (pos == RecyclerView.NO_POSITION) return;
-
+            numOfInstructions--;
             instructionsText.remove(pos);
             instructionImages.remove(pos);
             notifyItemRemoved(pos);
