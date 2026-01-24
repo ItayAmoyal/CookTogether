@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title 1 -->
+    <TextView
+        android:id="@+id/tvChooseTypeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="בחר אחד מהסוגים האלו"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Type switches -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchMilk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="חלבי"
+        android:textSize="18sp"
+        android:paddingVertical="10dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchMeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="בשרי"
+        android:textSize="18sp"
+        android:paddingVertical="10dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchParve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="פרווה"
+        android:textSize="18sp"
+        android:paddingVertical="10dp" />
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchother"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="אחר"
+        android:textSize="18sp"
+        android:paddingVertical="10dp" />
+    <!-- Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp" />
+
+    <!-- Title 2 -->
+    <TextView
+        android:id="@+id/tvKashrutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="כשרות"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Kashrut switches -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchKosher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="כשר"
+        android:textSize="18sp"
+        android:paddingVertical="10dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchNotKosher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="לא כשר"
+        android:textSize="18sp"
+        android:paddingVertical="10dp" />
+    <LinearLayout
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="חזור"/>
+        <Button
+            android:id="@+id/enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:text="אשר"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+</ScrollView>
+
+    </com.google.android.material.card.MaterialCardView>

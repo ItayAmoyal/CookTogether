@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CookTogether">
+        <!-- LoginActivity as the launcher -->
         <activity
-            android:name=".CreateRecipe"
+            android:name=".LoginActivity"
             android:exported="true">
 
-            <!-- This makes CreateRecipe the launcher screen -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,6 +24,10 @@
         </activity>
 
         <!-- Normal activities -->
+        <activity
+            android:name=".CreateRecipe"
+            android:exported="true" />
+
         <activity
             android:name=".RecipeActivity"
             android:exported="true" />
@@ -36,9 +40,6 @@
             android:name=".SignUpActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
 
     </application>
 

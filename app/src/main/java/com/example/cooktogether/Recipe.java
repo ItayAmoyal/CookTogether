@@ -9,6 +9,8 @@ public class Recipe {
     private ArrayList<InstructionItem> instructions;
     private String cookTime;
     private String picture;
+    private String filterKashroot;
+    private String filterType;
     private String difficulty;
     private int averageRatingSum;
     private int averageRating;
@@ -57,6 +59,7 @@ public class Recipe {
         this.difficulty = difficulty;
     }
 
+
     public void setUidRated(ArrayList<String> uidRated) {
         this.uidRated = uidRated;
     }
@@ -65,13 +68,15 @@ public class Recipe {
         this.name = r.name;
         this.uid = r.uid;
         this.recipeID = r.recipeID;
-
+        this.difficulty=r.difficulty;
         this.instructions = new ArrayList<>(r.instructions);
 
         this.ingridiantsArrayList = new ArrayList<>(r.ingridiantsArrayList);
         this.uidRated=r.uidRated;
         this.cookTime = r.cookTime;
         this.picture = r.picture;
+        this.filterKashroot=r.filterKashroot;
+        this.filterType=r.filterType;
         this.averageRatingSum = r.averageRatingSum;
         this.averageRating = r.averageRating;
         this.averageratingCount = r.averageratingCount;
@@ -86,9 +91,26 @@ public class Recipe {
         cookTime="";
         difficulty="";
         uid="";
+        filterType="";
+        filterKashroot="";
         instructions=new ArrayList<>();
         ingridiantsArrayList=new ArrayList<>();
         picture="";
+    }
+public String getFilterKashroot() {
+    return filterKashroot;
+}
+
+    public String getFilterType() {
+        return filterType;
+    }
+
+    public void setFilterKashroot(String filterKashroot) {
+        this.filterKashroot = filterKashroot;
+    }
+
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
     }
 
     public void setName(String name) {

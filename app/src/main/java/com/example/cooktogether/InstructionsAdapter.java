@@ -57,6 +57,11 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
         return instructionList.size();
     }
 
+    public void addInstruction(InstructionItem instruction) {
+        instructionList.add(instruction);
+        notifyItemInserted(instructionList.size() - 1);
+    }
+
     public static class InstructionViewHolder extends RecyclerView.ViewHolder {
 
         TextView textInstruction;

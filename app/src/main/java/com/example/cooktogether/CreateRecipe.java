@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -42,6 +43,8 @@ import java.util.UUID;
 public class CreateRecipe extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final int REQUEST_PICK_IMAGE=301;
     Spinner spinnerDiff,spinnerING;
+    ImageButton btnBack;
+    Button btnFilters;
     EditText ingrediantName,ingredientAmount,instructionText,recipeTitle,cookTime;
     String ingredientUnit="",difficulty="",stringRecipeImage;
     Boolean isImage=false;
@@ -59,6 +62,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     String[] arraydifficulty,unitMeasure;
     ImageView recipeImage;
     FirebaseUser user;
+    String filterKashroot="",filterType="";
     ArrayAdapter<String> adpMeasure,adpDifficulty;
     int flagImage =0;
     static int numOfInstructions=0,numOfIngridiants=0;
@@ -68,10 +72,11 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
 
-
+        btnBack=findViewById(R.id.backButton);
         recipeTitle=findViewById(R.id.etRecipeTitle1);
         spinnerDiff = findViewById(R.id.spinnerDifficulty);
         cookTime=findViewById(R.id.CookTime);
+        btnFilters=findViewById(R.id.filters1);
         spinnerING=findViewById(R.id.spinnerMeasure);
         rvInstructions=findViewById(R.id.rvInstructions);
         btnimageRecipe=findViewById(R.id.btnSelectImage);
@@ -114,6 +119,14 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         });
         rvInstructions.setAdapter(instructionCreateAdapter);
         allInstructions=new ArrayList<>();
+        //חזרה למסך בית
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CreateRecipe.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         //הוסף מצרך
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +151,29 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        //בחירת פילטרים
+        btnFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putInt("place", 2);
+
+
+                FiltersFragment fragment = new FiltersFragment();
+                fragment.setArguments(args);
+
+                fragment.show(getSupportFragmentManager(), "FILTERS_DIALOG");
+            }
+        });
+        getSupportFragmentManager().setFragmentResultListener(
+                "filters_result",
+                this,
+                (requestKey, bundle) -> {
+                    filterType = bundle.getString("type");
+                    filterKashroot = bundle.getString("kashroot");
+                    cookTime.setText(filterKashroot);
+                }
+        );
         //תמונת המתכון
         btnimageRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,17 +219,21 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
 
     //------------------------------------------------------------------------------------------------------------------
 
+
     //העלאת מתכון
      private void AddRecipe(){
-        if((!recipeTitle.getText().toString().equals(""))&&isImage==true
+        if((!recipeTitle.getText().toString().equals(""))&&!filterType.equals("")&&!filterKashroot.equals("")&&isImage==true
                 &&difficulty!=arraydifficulty[0]&&difficulty!=""
                 &&(!cookTime.getText().toString().equals(""))&&numOfInstructions>0&&numOfIngridiants>0)
         {
             Recipe recipe=new Recipe(recipeTitle.getText().toString(), "Itayyy");
             recipe.setCookTime(cookTime.getText().toString());
+            cookTime.setText(difficulty);
             recipe.setDifficulty(difficulty);
             recipe.setPicture(stringRecipeImage);
             recipe.setInstructions(allInstructions);
+            recipe.setFilterKashroot(filterKashroot);
+            recipe.setFilterType(filterType);
             recipe.setIngridiantsArrayList(allIngredients);
             recipe.setRecipeID(refAllRecipes.push().getKey());
             refAllRecipes.child(recipe.getRecipeID()).setValue(recipe);

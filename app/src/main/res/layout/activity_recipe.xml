@@ -142,7 +142,7 @@
     <!-- INSTRUCTIONS SCROLL -->
 
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.cooktogether.WrapContentRecyclerView
                 android:id="@+id/rvIngredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 android:textSize="22sp"/>
 
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.example.cooktogether.WrapContentRecyclerView
                 android:id="@+id/rvInstructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -6,6 +6,7 @@
     android:padding="16dp"
     android:background="@drawable/homepage_logo">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,12 +99,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center_vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            >
+
             <EditText
                 android:id="@+id/editTextSearch"
                 android:layout_width="270dp"
@@ -115,31 +111,19 @@
                 android:padding="12dp"
                 android:textColor="#333333"
                 android:textColorHint="#777777" />
-            <ImageButton
-                android:id="@+id/FilterButton"
-                android:layout_width="70dp"
-                android:layout_height="18dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="14dp"
-                android:background="@android:color/transparent"
-                android:clipToOutline="true"
-                android:contentDescription="Filters"
-                android:scaleType="centerCrop"
-                android:src="@drawable/filters" />
-        </LinearLayout>
+
 
         <ImageButton
-            android:id="@+id/searchButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/FilterButton"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             android:layout_marginTop="2sp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:contentDescription="Search recipes"
             android:padding="0dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/serchbar" />
+            android:src="@drawable/filters" />
 
     </LinearLayout>
 

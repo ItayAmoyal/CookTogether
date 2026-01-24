@@ -31,7 +31,7 @@ public class RecipeActivity extends AppCompatActivity {
     ImageButton rating1, rating2, rating3, rating4, rating5,backButton;
     ImageView ratingRecipe1, ratingRecipe2, ratingRecipe3, ratingRecipe5, ratingRecipe4;
     TextView recipeTitle, cooktime;
-    ImageView recipePicture;
+    ImageView recipePicture,picDifficulty;
     Boolean[]ratingsOn={false,false,false,false,false};
      Boolean[]ratingsRecipeOn={false,false,false,false,false};
     EditText writeComment;
@@ -52,6 +52,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipePicture = findViewById(R.id.imageRecipe);
         writeComment = findViewById(R.id.editTextComment);
         cooktime = findViewById(R.id.cooktime);
+        picDifficulty=findViewById(R.id.difficulty);
         submitRating = findViewById(R.id.submitRatingButton);
         submitComment = findViewById(R.id.submitCommentButton);
         backButton=findViewById(R.id.backButton);
@@ -89,40 +90,12 @@ public class RecipeActivity extends AppCompatActivity {
         //get the RecipeId
         Intent intent=getIntent();
         String correctRid = intent.getStringExtra("Rid");
-        //Example for data
-        Recipe recipe1 = new Recipe("Chicken Fried", "Itay");
-        recipe1.setRecipeID(correctRid);
-        recipe1.setCookTime("2 min");
-        recipe1.setAverageRating(3);
-        String imageUri = "android.resource://" + getPackageName() + "/" + R.drawable.favrecipes;
-        recipe1.setPicture(imageUri);
-        String[] names = {"oil", "eggs", "butter"};
-        String[] amount = {"2", "4", "5"};
-        ArrayList<Ingredient> ingridiants = new ArrayList<>();
-        ingridiants.add(new Ingredient("32", "grams", "Oil"));
-        ingridiants.add(new Ingredient("40", "Ounces", "Chicken"));
-        recipe1.setIngridiantsArrayList(ingridiants);
-        ArrayList<InstructionItem> instructionItems = new ArrayList<>();
-        instructionItems.add(new InstructionItem("Bake the cookie", null));
-        recipe1.setInstructions(instructionItems);
-        recipe1.setAverageRating(3);
 
-        Comments comments1=new Comments("user123", "Looks delicious!", correctRid);
-        Comments comments2=new Comments("user456", "I tried this and it was amazing.", correctRid);
-        Comments comments3=new Comments("user789", "Can I replace butter with oil?", correctRid);
-        Recipe recipe2=new Recipe(recipe1);
-        recipe2.setRecipeID("taim");
-        String keyId1=FBRef.refComments.push().getKey();
-        comments1.setKeyId(keyId1);
-        String keyId2=FBRef.refComments.push().getKey();
-        comments2.setKeyId(keyId2);
-        String keyId3=FBRef.refComments.push().getKey();
-        comments3.setKeyId(keyId3);
-        //הכנסת נתונים(דוגמא)
-        FBRef.refAllRecipes.child(("yami")).setValue(recipe1);
-        FBRef.refAllRecipes.child(("taim")).setValue(recipe2);
+
         //קריאת נתונים
         GetRecipeFromFireBase(correctRid);
+
+
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +112,13 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     //פעולות
+
+
+
+
+
+
+
 
     //תצוגת המתכון על המסך
     private void GetRecipeFromFireBase(String correctRid) {
@@ -192,15 +172,33 @@ public class RecipeActivity extends AppCompatActivity {
             Toast.makeText(this, "No recipe to show", Toast.LENGTH_SHORT).show();
             return;
         }
-        cooktime.setText("CookTime: "+activeRecipe.getRecipeID());
+
+        cooktime.setText("CookTime: "+activeRecipe.getCookTime());
         recipeTitle.setText(activeRecipe.getName().toString());
         Glide.with(this)
                 .load(activeRecipe.getPicture())
                 .into(recipePicture);
+        if(activeRecipe.getDifficulty().equals("Easy")) {
+            Glide.with(this)
+                    .load(R.drawable.diffeasy)
+                    .into(picDifficulty);
+        }
+        if(activeRecipe.getDifficulty().equals("Medium")) {
+            Glide.with(this)
+                    .load(R.drawable.midddiff)
+                    .into(picDifficulty);
+        }
+        if(activeRecipe.getDifficulty().equals("Hard")) {
+            Glide.with(this)
+                    .load(R.drawable.harddiff)
+                    .into(picDifficulty);
+        }
         rvingredients.setLayoutManager(new LinearLayoutManager(this));
         IngredientsAdapter ingredientsAdapter=new IngredientsAdapter(this,activeRecipe.getIngridiantsArrayList());
         rvingredients.setAdapter(ingredientsAdapter);
         rvInstructions.setLayoutManager(new LinearLayoutManager(this));
+        rvInstructions.setHasFixedSize(false);
+        rvInstructions.setNestedScrollingEnabled(false);
        InstructionsAdapter instructionsAdapter=new InstructionsAdapter(this,activeRecipe.getInstructions());
         rvInstructions.setAdapter(instructionsAdapter);
         rvComments.setLayoutManager(new LinearLayoutManager(this));
