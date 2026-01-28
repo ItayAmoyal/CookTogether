@@ -217,7 +217,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-    //------------------------------------------------------------------------------------------------------------------
+    //פעולות------------------------------------------------------------------------------------------------------------------
 
 
     //העלאת מתכון
@@ -229,6 +229,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             Recipe recipe=new Recipe(recipeTitle.getText().toString(), "Itayyy");
             recipe.setCookTime(cookTime.getText().toString());
             cookTime.setText(difficulty);
+            recipe.setUid(user.getUid());
             recipe.setDifficulty(difficulty);
             recipe.setPicture(stringRecipeImage);
             recipe.setInstructions(allInstructions);

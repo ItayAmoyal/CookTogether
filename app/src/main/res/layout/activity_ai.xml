@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#F6F7FB">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ai Estimate Calories"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#111827"
+        android:gravity="center"/>
+
+    <!-- Chat bubble -->
+    <LinearLayout
+        android:id="@+id/chatBubble"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:background="@drawable/bg_ai_chat_card"
+        android:elevation="3dp">
+
+        <TextView
+            android:id="@+id/tvChatWho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AI"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#6B7280"/>
+
+        <TextView
+            android:id="@+id/tvChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Upload your food and i will tell you the macros!"
+            android:textSize="16sp"
+            android:textColor="#111827"
+            android:lineSpacingExtra="2dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/cardUpload"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/bg_ai_chat_card"
+        android:elevation="3dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvUploadLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload photo from gallery"
+            android:textColor="#111827"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvUploadHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Choose an image of your meal."
+            android:textColor="#6B7280"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btnPickFromGallery"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="#E72626"
+            android:text="Pick from gallery"
+            android:textAllCaps="false" />
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:contentDescription="Selected image preview"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnEstimateMacros"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#A91C1C"
+        android:text="Estimate macros"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"/>
+
+</LinearLayout>
+

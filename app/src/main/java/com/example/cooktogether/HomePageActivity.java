@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
     RecyclerView rvAllrecipes;
-    ImageButton btnCreateRecipe, btnFilters;
+    ImageButton btnCreateRecipe, btnFilters,btnAi;
     EditText etSerchBar;
     int flagFilter=0,flagfilter2;
     RecipeAdapter recipeAdapter;
@@ -43,6 +43,7 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         rvAllrecipes=findViewById(R.id.rvAllRecipes);
+        btnAi=findViewById(R.id.recipeButton3);
         btnFilters=findViewById(R.id.FilterButton);
         etSerchBar=findViewById(R.id.editTextSearch);
         btnCreateRecipe=findViewById(R.id.recipeButton2);
@@ -51,6 +52,13 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(HomePageActivity.this,RecipeActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnAi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomePageActivity.this,AiActivity.class);
                 startActivity(intent);
             }
         });

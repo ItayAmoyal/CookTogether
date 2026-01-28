@@ -141,7 +141,7 @@ public class FiltersFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        // קובע גודל: 90% מהמסך
+        //קובע גודל: 90% מהמסך
         if (getDialog() != null && getDialog().getWindow() != null) {
             DisplayMetrics dm = new DisplayMetrics();
             requireActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);

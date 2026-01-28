@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chatCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="@drawable/bg_ai_chat_card"
+    android:elevation="4dp">
+
+    <!-- Sender / AI label -->
+    <TextView
+        android:id="@+id/textWhoComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AI"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="#6B7280" />
+
+    <!-- Message -->
+    <TextView
+        android:id="@+id/textComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload your food and I will tell you the macros!"
+        android:textSize="16sp"
+        android:textColor="#111827"
+        android:layout_marginTop="6dp"
+        android:lineSpacingExtra="2dp" />
+
+</LinearLayout>
