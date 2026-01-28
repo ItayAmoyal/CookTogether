@@ -127,7 +127,7 @@ public class RecipeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-                    Toast.makeText(RecipeActivity.this, "Recipe not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecipeActivity.this, "המתכון לא נמצא", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for (DataSnapshot data : snapshot.getChildren()) {
@@ -148,7 +148,7 @@ public class RecipeActivity extends AppCompatActivity {
 
         Query query=FBRef.refComments.orderByChild("rid").equalTo(correctRid);
 
-      query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 commentsFireBase.clear();
@@ -169,11 +169,11 @@ public class RecipeActivity extends AppCompatActivity {
     private void setRecipeInscreen(){
         ImageView[] recipeRatings={ratingRecipe1,ratingRecipe2,ratingRecipe3,ratingRecipe4,ratingRecipe5};
         if (activeRecipe == null) {
-            Toast.makeText(this, "No recipe to show", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "אין מתכון להצגה", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        cooktime.setText("CookTime: "+activeRecipe.getCookTime());
+        cooktime.setText("זמן הכנה: "+activeRecipe.getCookTime());
         recipeTitle.setText(activeRecipe.getName().toString());
         Glide.with(this)
                 .load(activeRecipe.getPicture())
@@ -199,10 +199,10 @@ public class RecipeActivity extends AppCompatActivity {
         rvInstructions.setLayoutManager(new LinearLayoutManager(this));
         rvInstructions.setHasFixedSize(false);
         rvInstructions.setNestedScrollingEnabled(false);
-       InstructionsAdapter instructionsAdapter=new InstructionsAdapter(this,activeRecipe.getInstructions());
+        InstructionsAdapter instructionsAdapter=new InstructionsAdapter(this,activeRecipe.getInstructions());
         rvInstructions.setAdapter(instructionsAdapter);
         rvComments.setLayoutManager(new LinearLayoutManager(this));
-       CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
+        CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
         rvComments.setAdapter(commentsAdapter);
         for (int i = 0; i < activeRecipe.getAverageRating(); i++) {
             recipeRatings[i].setImageResource(R.drawable.fullstar);
@@ -219,16 +219,16 @@ public class RecipeActivity extends AppCompatActivity {
         commentsFireBase.add(newComment);
         CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
         rvComments.setAdapter(commentsAdapter);
-        Toast.makeText(this, "Comment Added", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "התגובה נוספה", Toast.LENGTH_SHORT).show();
     }
     private void AddRating(int num){
         if( activeRecipe.AddRating(num,"Itay")==true) {
             setRecipeRating(activeRecipe.getAverageRating());
             FBRef.refAllRecipes.child(activeRecipe.getRecipeID()).setValue(activeRecipe);
-            Toast.makeText(this, "Rating Added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "הדירוג נוסף", Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(this, "You Can't Rate more than once", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "אי אפשר לדרג יותר מפעם אחת", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -278,6 +278,7 @@ public class RecipeActivity extends AppCompatActivity {
         }
     }
 }
+
 
 
 

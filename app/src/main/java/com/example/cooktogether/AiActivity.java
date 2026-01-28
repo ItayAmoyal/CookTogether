@@ -96,16 +96,16 @@ ImageView picture;
     }
     private void promptSend(){
         String prompt=
-                "If not clearly food output exactly: 1\n" +
-                        "Else output exactly:\n" +
-                        "Calories:(type number)\nProtein:(type number) grams\nCarbs:(type number) grams\nFat:(type number) grams";
+                "אם התמונה אינה מציגה בבירור אוכל, החזר בדיוק: 1\n" +
+                        "אחרת החזר בדיוק:\n" +
+                        "קלוריות:(הקלד מספר)\nחלבון:(הקלד מספר) גרם\nפחמימות:(הקלד מספר) גרם\nשומן:(הקלד מספר) גרם";
         GeminiManager geminiManager=new GeminiManager();
         geminiManager.sendTextWithPrompt(prompt, picBitmap, new GeminiCallBack() {
             @Override
             public void onSuccess(String result) {
                 runOnUiThread(() -> {
                     if (!result.trim().equals("1")) {
-                       flag=1;
+                        flag=1;
 
                         Bundle args = new Bundle();
                         args.putString("answer", result);
@@ -115,7 +115,7 @@ ImageView picture;
 
                         fragment.show(getSupportFragmentManager(), "AiFragment");
                     } else {
-                        Toast.makeText(AiActivity.this, "This picture doesn't contain a food", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AiActivity.this, "התמונה אינה מכילה אוכל", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

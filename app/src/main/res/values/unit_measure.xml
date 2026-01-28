@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="unit_measure">
-        <item> Unit measure:</item>
-        <item>gram</item>
-        <item>kg</item>
-        <item>tsp</item>
-        <item>Tbsp</item>
-        <item>cup</item>
-        <item>Ounces</item>
-        <item>pound</item>
-        <item>mL</item>
+        <item> יחידת מידה:</item>
+        <item>גרם</item>
+        <item>קילו</item>
+        <item>כפיות</item>
+        <item>כפות</item>
+        <item>כוסות</item>
+        <item>פאונדים</item>
+        <item>מיליטר</item>
     </string-array>
 </resources>

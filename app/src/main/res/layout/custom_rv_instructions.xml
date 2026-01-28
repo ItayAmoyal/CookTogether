@@ -5,20 +5,19 @@
     android:layout_marginTop="15dp"
     android:orientation="vertical"
     android:padding="12dp"
-    android:layout_margin="8dp"
-    >
+    android:layout_margin="8dp">
 
-    <!-- Instruction text -->
     <TextView
         android:id="@+id/textInstruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" Mix all ingredients together."
+        android:text="ערבב את כל המצרכים יחד."
         android:textSize="18sp"
         android:textColor="#000000"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:gravity="start"
+        android:textAlignment="viewStart" />
 
-    <!-- Preview image for this instruction -->
     <ImageView
         android:id="@+id/imageInstruction"
         android:layout_width="match_parent"
@@ -26,6 +25,6 @@
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         android:background="#DDDDDD"
-        android:contentDescription="Instruction image" />
-</LinearLayout>
+        android:contentDescription="תמונת הוראה" />
 
+</LinearLayout>

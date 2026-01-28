@@ -16,16 +16,16 @@
         android:layout_marginTop="60dp"
         android:padding="32dp">
 
-
-
         <EditText
             android:id="@+id/editTextEmailSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="240dp"
-            android:hint="Email"
+            android:hint="אימייל"
             android:inputType="textEmailAddress"
             android:background="@drawable/edittext_colored_background"
+            android:gravity="end|center_vertical"
+            android:textAlignment="viewEnd"
             android:textColor="#333333"
             android:textColorHint="#888888"
             android:padding="12dp" />
@@ -35,20 +35,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Password"
+            android:hint="סיסמה"
             android:inputType="textPassword"
             android:background="@drawable/edittext_colored_background"
+            android:gravity="end|center_vertical"
+            android:textAlignment="viewEnd"
             android:textColor="#333333"
             android:textColorHint="#888888"
             android:padding="12dp" />
+
         <EditText
             android:id="@+id/editTextNameSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Full Name"
+            android:hint="שם מלא"
             android:inputType="textPersonName"
             android:background="@drawable/edittext_colored_background"
+            android:gravity="end|center_vertical"
+            android:textAlignment="viewEnd"
             android:textColor="#333333"
             android:textColorHint="#888888"
             android:padding="12dp" />
@@ -59,9 +64,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:backgroundTint="#FF7043"
-            android:text="SIGN UP"
+            android:text="הרשמה"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textAlignment="center" />
 
     </LinearLayout>
 

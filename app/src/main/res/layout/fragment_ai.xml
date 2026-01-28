@@ -7,7 +7,6 @@
     android:padding="16dp"
     android:background="#F6F7FB">
 
-    <!-- Chat bubble -->
     <LinearLayout
         android:id="@+id/chatBubble"
         android:layout_width="match_parent"
@@ -21,33 +20,39 @@
             android:id="@+id/tvChatTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AI"
+            android:text="בינה מלאכותית"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="#6B7280"/>
+            android:textColor="#6B7280"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
 
         <TextView
             android:id="@+id/tvChatMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="This is my estimation"
+            android:text="זו ההערכה שלי"
             android:textSize="16sp"
-            android:textColor="#111827"/>
+            android:textColor="#111827"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
     </LinearLayout>
 
-    <!-- Result TextView -->
     <TextView
         android:id="@+id/tvEstimationResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:padding="16dp"
-        android:text="Calories:\nProtein:\nCarbs:\nFat:"
+        android:text="קלוריות:\nחלבון:\nפחמימות:\nשומן:"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#111827"
         android:lineSpacingExtra="8dp"
-        android:background="@drawable/bg_estimation_result"/>
+        android:background="@drawable/bg_estimation_result"
+        android:gravity="start"
+        android:textAlignment="viewStart" />
 
 </LinearLayout>
+

@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <!-- Card Container -->
     <LinearLayout
         android:id="@+id/mainlayout"
         android:layout_width="match_parent"
@@ -15,45 +14,44 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- Recipe Image -->
         <ImageView
             android:id="@+id/imageRecipe"
             android:layout_width="89dp"
             android:layout_height="95dp"
-            android:layout_marginRight="14dp"
+            android:layout_marginEnd="14dp"
             android:background="#CCCCCC"
             android:clipToOutline="true"
             android:scaleType="centerCrop" />
 
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/textRecipeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recipe Name"
+                android:text="שם המתכון"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:gravity="start"
+                android:textAlignment="viewStart" />
 
             <TextView
                 android:id="@+id/textCookTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Cook Time: 30 min"
+                android:text="זמן הכנה: 30 דק׳"
                 android:textColor="#444444"
-                android:textSize="16sp" />
-
+                android:textSize="16sp"
+                android:gravity="start"
+                android:textAlignment="viewStart" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -90,7 +88,6 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/emptystar" />
-
             </LinearLayout>
 
         </LinearLayout>

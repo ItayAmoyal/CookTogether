@@ -7,18 +7,17 @@
     android:padding="20dp"
     android:background="#F6F7FB">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ai Estimate Calories"
+        android:text="הערכת קלוריות באמצעות בינה מלאכותית"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="#111827"
-        android:gravity="center"/>
+        android:gravity="center"
+        />
 
-    <!-- Chat bubble -->
     <LinearLayout
         android:id="@+id/chatBubble"
         android:layout_width="match_parent"
@@ -34,22 +33,25 @@
             android:id="@+id/tvChatWho"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AI"
-            android:textSize="21sp"
+            android:text="בינה מלאכותית"
+            android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="#6B7280"/>
+            android:textColor="#6B7280"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
 
         <TextView
             android:id="@+id/tvChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Upload your food and i will tell you the macros!"
+            android:text="העלה תמונה של האוכל ואני אגיד לך את הערכים התזונתיים!"
             android:textSize="16sp"
             android:textColor="#111827"
-            android:lineSpacingExtra="2dp"/>
+            android:lineSpacingExtra="2dp"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/cardUpload"
@@ -65,19 +67,23 @@
             android:id="@+id/tvUploadLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload photo from gallery"
+            android:text="העלאת תמונה מהגלריה"
             android:textColor="#111827"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
 
         <TextView
             android:id="@+id/tvUploadHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Choose an image of your meal."
+            android:text="בחר תמונה של הארוחה שלך."
             android:textColor="#6B7280"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
 
         <Button
             android:id="@+id/btnPickFromGallery"
@@ -85,18 +91,19 @@
             android:layout_height="48dp"
             android:layout_marginTop="14dp"
             android:backgroundTint="#E72626"
-            android:text="Pick from gallery"
-            android:textAllCaps="false" />
+            android:text="בחר מהגלריה"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <ImageView
             android:id="@+id/imgPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:contentDescription="Selected image preview"
+            android:contentDescription="תצוגה מקדימה של התמונה שנבחרה"
             android:scaleType="centerCrop" />
     </LinearLayout>
-
 
     <Button
         android:id="@+id/btnEstimateMacros"
@@ -104,10 +111,13 @@
         android:layout_height="61dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#A91C1C"
-        android:text="Estimate macros"
+        android:text="הערכת ערכים תזונתיים"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textAlignment="center" />
 
 </LinearLayout>
+
 

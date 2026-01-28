@@ -1,5 +1,5 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -17,7 +17,7 @@
             android:layout_height="50dp"
             android:background="@android:color/transparent"
             android:clipToOutline="true"
-            android:contentDescription="Go Back"
+            android:contentDescription="חזרה אחורה"
             android:padding="6dp"
             android:scaleType="centerCrop"
             android:src="@drawable/back_icon" />
@@ -27,8 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text="Create Recipe"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="יצירת מתכון"
             android:textColor="#000"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -37,7 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Recipe Title"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="שם המתכון"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -46,12 +49,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_comment_edittext"
-            android:hint="Enter recipe title"
+            android:hint="הכנס שם מתכון"
             android:padding="10dp"
+            android:gravity="start|center_vertical"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textColorHint="#888888"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/imageRecipe"
@@ -67,12 +71,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:text="Select Image" />
+            android:text="בחירת תמונה"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Difficulty"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="רמת קושי"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -90,7 +98,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Cook Time"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="זמן הכנה"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -100,9 +110,10 @@
             android:layout_height="49dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_comment_edittext"
-            android:gravity="top|start"
-            android:hint="Enter Cook Time... "
+            android:hint="הכנס זמן הכנה..."
             android:padding="16dp"
+            android:gravity="start|center_vertical"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textColorHint="#888888"
             android:textSize="16sp" />
@@ -110,7 +121,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingredients"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="מצרכים"
             android:textStyle="bold"
             android:textSize="22sp"
             android:layout_marginTop="20dp" />
@@ -126,10 +139,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
                 android:background="@drawable/bg_comment_edittext"
-                android:gravity="top|start"
-                android:hint="Type Ingredient..."
+                android:hint="הקלד מצרך..."
                 android:inputType="text"
                 android:padding="16dp"
+                android:gravity="start|center_vertical"
+                android:textAlignment="viewStart"
                 android:textColor="#000000"
                 android:textColorHint="#888888"
                 android:textSize="16sp" />
@@ -146,9 +160,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/bg_comment_edittext"
-                    android:hint="Amount"
+                    android:hint="כמות"
                     android:inputType="numberDecimal"
                     android:padding="16dp"
+                    android:gravity="start|center_vertical"
+                    android:textAlignment="viewStart"
                     android:textColor="#000000"
                     android:textColorHint="#888888"
                     android:textSize="14sp" />
@@ -158,12 +174,11 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
                     android:background="@drawable/bg_comment_edittext"
                     android:entries="@array/unit_measure"
                     android:padding="10dp"
                     android:spinnerMode="dropdown" />
-
             </LinearLayout>
         </LinearLayout>
 
@@ -172,7 +187,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Add Ingredient" />
+            android:text="הוסף מצרך"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCreateIngredients"
@@ -180,11 +197,12 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Instructions"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="הוראות הכנה"
             android:textStyle="bold"
             android:textSize="22sp"
             android:layout_marginTop="20dp" />
@@ -195,10 +213,11 @@
             android:layout_height="59dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_comment_edittext"
-            android:gravity="top|start"
-            android:hint="Write the step here..."
+            android:hint="כתוב את ההוראה כאן..."
             android:inputType="textMultiLine"
             android:padding="16dp"
+            android:gravity="start|center_vertical"
+            android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textColorHint="#888888"
             android:textSize="16sp" />
@@ -208,9 +227,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Add an Image" />
-
-
+            android:text="הוסף תמונה"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvImagesinstructions"
@@ -223,7 +242,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Add Instruction" />
+            android:text="הוסף הוראה"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvInstructions"
@@ -232,13 +253,15 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
-
         <Button
             android:id="@+id/filters1"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="choose filters"/>
+            android:text="בחר מסננים"
+            android:gravity="center"
+            android:textAlignment="center"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -251,7 +274,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CANCEL" />
+                android:text="ביטול"
+                android:gravity="center"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/btnCreateRecipe"
@@ -259,9 +284,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="CREATE" />
+                android:text="יצירה"
+                android:gravity="center"
+                android:textAlignment="center" />
         </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
-

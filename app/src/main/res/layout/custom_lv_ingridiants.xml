@@ -11,25 +11,17 @@
     android:layout_margin="6dp"
     android:elevation="4dp">
 
-    <!-- Ingredient Name -->
     <TextView
         android:id="@+id/ingrediantNamee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="Ingredient"
+        android:text="מצרך"
         android:textColor="#000000"
         android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <!-- Amount -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Amount:"
-        android:textColor="#555555"
-        android:textSize="16sp"
-        android:layout_marginRight="4dp"/>
+        android:textStyle="bold"
+        android:gravity="start"
+        android:textAlignment="viewStart" />
 
     <TextView
         android:id="@+id/ingrediantAmount"
@@ -38,8 +30,22 @@
         android:text="1"
         android:textColor="#000000"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:gravity="start"
+        android:textAlignment="viewStart" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="כמות:"
+        android:textColor="#555555"
+        android:textSize="16sp"
+        android:layout_marginEnd="4dp"
+        android:gravity="start"
+        android:textAlignment="viewStart" />
+
 </LinearLayout>
+
 
 
 

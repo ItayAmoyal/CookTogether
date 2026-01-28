@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/imgItem"
         android:layout_width="248dp"
-        android:layout_marginLeft="45dp"
         android:layout_height="252dp"
+        android:layout_marginStart="45dp"
         android:layout_gravity="center_horizontal"
         android:background="#E0E0E0"
         android:scaleType="centerCrop" />
@@ -25,4 +24,5 @@
         android:padding="8dp"
         android:src="@drawable/ic_delete_white" />
 </LinearLayout>
+
 

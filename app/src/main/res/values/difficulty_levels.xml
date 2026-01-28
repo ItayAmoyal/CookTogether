@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="difficulty_levels">
-        <item> Difficulty:</item>
-        <item>Easy</item>
-        <item>Medium</item>
-        <item>Hard</item>
+        <item> רמת קושי:</item>
+        <item>קל</item>
+        <item>בינוני</item>
+        <item>קשה</item>
     </string-array>
 </resources>

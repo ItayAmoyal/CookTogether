@@ -9,25 +9,28 @@
     android:background="@drawable/bg_ai_chat_card"
     android:elevation="4dp">
 
-    <!-- Sender / AI label -->
     <TextView
         android:id="@+id/textWhoComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AI"
+        android:text="בינה מלאכותית"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:textColor="#6B7280" />
+        android:textColor="#6B7280"
+        android:gravity="end"
+        android:textAlignment="viewEnd" />
 
-    <!-- Message -->
     <TextView
         android:id="@+id/textComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upload your food and I will tell you the macros!"
+        android:text="העלה תמונה של האוכל ואני אגיד לך את הערכים התזונתיים!"
         android:textSize="16sp"
         android:textColor="#111827"
         android:layout_marginTop="6dp"
-        android:lineSpacingExtra="2dp" />
+        android:lineSpacingExtra="2dp"
+        android:gravity="end"
+        android:textAlignment="viewEnd" />
 
 </LinearLayout>
+

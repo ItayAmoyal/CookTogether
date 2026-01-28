@@ -188,16 +188,16 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder adb=new AlertDialog.Builder(CreateRecipe.this);
-                adb.setTitle("Hi Itay");
-                adb.setMessage("Are you sure you want to upload this recipe?");
+                adb.setTitle("היי איתי");
+                adb.setMessage("האם אתה בטוח שברצונך להעלות את המתכון הזה?");
                 adb.setIcon(R.drawable.create_recipe_logo);
-                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton("כן", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                      AddRecipe();
+                        AddRecipe();
                     }
                 });
-                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                adb.setNegativeButton("לא", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -217,16 +217,18 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+
+
     //פעולות------------------------------------------------------------------------------------------------------------------
 
 
     //העלאת מתכון
-     private void AddRecipe(){
+    private void AddRecipe(){
         if((!recipeTitle.getText().toString().equals(""))&&!filterType.equals("")&&!filterKashroot.equals("")&&isImage==true
                 &&difficulty!=arraydifficulty[0]&&difficulty!=""
                 &&(!cookTime.getText().toString().equals(""))&&numOfInstructions>0&&numOfIngridiants>0)
         {
-            Recipe recipe=new Recipe(recipeTitle.getText().toString(), "Itayyy");
+            Recipe recipe=new Recipe(recipeTitle.getText().toString(), user.getUid());
             recipe.setCookTime(cookTime.getText().toString());
             cookTime.setText(difficulty);
             recipe.setUid(user.getUid());
@@ -242,16 +244,16 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             startActivity(intent);
         }
         else{
-            Toast.makeText(this, "You Must Fill All Spots", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "חובה למלא את כל השדות", Toast.LENGTH_SHORT).show();
         }
-     }
+    }
     //הוספת מצרך
     private void AddIngrediant(){
         String name=ingrediantName.getText().toString();
         String amount=ingredientAmount.getText().toString()+" ";
         if (name.isEmpty() || amount.isEmpty() ||
                 ingredientUnit.isEmpty() || ingredientUnit.equals(unitMeasure[0])) {
-            Toast.makeText(this, "Fill name, amount and Unit measure", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "נא למלא שם, כמות ויחידת מידה", Toast.LENGTH_SHORT).show();
             return;
         }
         Ingredient ingredient=new Ingredient(amount,ingredientUnit,name);
@@ -264,15 +266,15 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            if (parent.getId() == R.id.spinnerMeasure) {
-                ingredientUnit = unitMeasure[position];
+        if (parent.getId() == R.id.spinnerMeasure) {
+            ingredientUnit = unitMeasure[position];
 
-            } else if (parent.getId() == R.id.spinnerDifficulty) {
-                difficulty = arraydifficulty[position];
-            }
+        } else if (parent.getId() == R.id.spinnerDifficulty) {
+            difficulty = arraydifficulty[position];
         }
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -305,10 +307,10 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             imageAdapter.notifyItemRangeRemoved(0, size);
             instructionText.setText("");
             numOfInstructions++;
-            Toast.makeText(CreateRecipe.this," Instruction Added",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateRecipe.this,"הוראה נוספה",Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(CreateRecipe.this,"You must type an Instruction",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateRecipe.this,"חובה להקליד הוראה",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -331,7 +333,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         if (imageUri != null) {
             String fileName= UUID.randomUUID().toString()+".jpg";
             ProgressDialog pd=new ProgressDialog(this);
-            pd.setTitle("Uploading...");
+            pd.setTitle("מעלה...");
             pd.show();
             try{
                 InputStream stream =getContentResolver().openInputStream(imageUri);
@@ -340,30 +342,30 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                 imageMap.put("ImageName",fileName);
                 imageMap.put("ImageData", Blob.fromBytes(imageBytes));
                 refImages.document(fileName).set(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        pd.dismiss();
-                        Toast.makeText(CreateRecipe.this,"Upload successful",Toast.LENGTH_SHORT).show();
-                        if(flagImage ==0){
-                            AddImageInstructions(imageUri,fileName);
-                        }
-                       else{
-                           AddRecipeImage(imageUri,fileName);
-                        }
-                    }
-                })
+                            @Override
+                            public void onSuccess(Void unused) {
+                                pd.dismiss();
+                                Toast.makeText(CreateRecipe.this,"ההעלאה בוצעה בהצלחה",Toast.LENGTH_SHORT).show();
+                                if(flagImage ==0){
+                                    AddImageInstructions(imageUri,fileName);
+                                }
+                                else{
+                                    AddRecipeImage(imageUri,fileName);
+                                }
+                            }
+                        })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 pd.dismiss();
-                                Toast.makeText(CreateRecipe.this,"Upload failed",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CreateRecipe.this,"ההעלאה נכשלה",Toast.LENGTH_SHORT).show();
 
                             }
                         });
             } catch (IOException e){
                 e.printStackTrace();
                 pd.dismiss();
-                Toast.makeText(CreateRecipe.this,"Error processing image",Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateRecipe.this,"שגיאה בעיבוד התמונה",Toast.LENGTH_SHORT).show();
 
             }
         }
