@@ -1,6 +1,7 @@
 package com.example.cooktogether;
 
 import static com.example.cooktogether.FBRef.refAuth;
+import static com.example.cooktogether.FBRef.refUsers;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -69,9 +70,9 @@ public class SignUpActivity extends AppCompatActivity {
                             pd.dismiss();
                             if (task.isSuccessful()) {
                                 FirebaseUser user=refAuth.getCurrentUser();
-                                User user1=new User(name,user.getUid());
+                                User user1=new User(name,user.getUid(),password,email);
                                 //הכנסה לפיירבייס
-
+                                refUsers.child(user.getUid()).setValue(user1);
                                 Toast.makeText(SignUpActivity.this, "המשתמש נוצר בהצלחה", Toast.LENGTH_SHORT).show();
 
                                 refAuth.getCurrentUser()

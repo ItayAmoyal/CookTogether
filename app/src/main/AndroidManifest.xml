@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,10 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CookTogether">
+        <receiver
+            android:name=".AlarmNoti"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".AiActivity"
-            android:exported="false" />
-        <!-- LoginActivity as the launcher -->
+            android:exported="false" /> <!-- LoginActivity as the launcher -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">

@@ -11,23 +11,41 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="horizontal"
+            android:layoutDirection="rtl"
+            android:gravity="center_vertical"
+            android:padding="16dp">
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="149dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:clipToOutline="true"
-            android:contentDescription="חזרה אחורה"
-            android:padding="6dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/back_icon" />
+            <!-- טקסט (ראשון – מימין) -->
+            <TextView
+                android:id="@+id/textRecipeMade"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="נוצר על ידי איתי"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="start"/>
 
+            <!-- כפתור חזרה (שמאל) -->
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="130dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="חזרה אחורה"
+                android:padding="6dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/back_icon" />
+        </LinearLayout>
         <TextView
             android:id="@+id/textRecipeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:gravity="center"
             android:text="שם המתכון"
             android:textColor="#000"

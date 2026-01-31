@@ -3,6 +3,7 @@ package com.example.cooktogether;
 import static com.example.cooktogether.FBRef.refAllRecipes;
 import static com.example.cooktogether.FBRef.refAuth;
 import static com.example.cooktogether.FBRef.refImages;
+import static com.example.cooktogether.FBRef.refUsers;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,6 +32,9 @@ import com.google.android.gms.common.util.IOUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.Blob;
 
 import java.io.IOException;
@@ -61,7 +65,9 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     InstructionCreateAdapter instructionCreateAdapter;
     String[] arraydifficulty,unitMeasure;
     ImageView recipeImage;
+    User userCurrent;
     FirebaseUser user;
+    Boolean flagContinue=false;
     String filterKashroot="",filterType="";
     ArrayAdapter<String> adpMeasure,adpDifficulty;
     int flagImage =0;
@@ -223,27 +229,46 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
 
 
     //העלאת מתכון
-    private void AddRecipe(){
-        if((!recipeTitle.getText().toString().equals(""))&&!filterType.equals("")&&!filterKashroot.equals("")&&isImage==true
-                &&difficulty!=arraydifficulty[0]&&difficulty!=""
-                &&(!cookTime.getText().toString().equals(""))&&numOfInstructions>0&&numOfIngridiants>0)
+    private void AddRecipe() {
+        if ((!recipeTitle.getText().toString().equals("")) && !filterType.equals("") && !filterKashroot.equals("") && isImage == true
+                && difficulty != arraydifficulty[0] && difficulty != ""
+                && (!cookTime.getText().toString().equals("")) && numOfInstructions > 0 && numOfIngridiants > 0)
         {
-            Recipe recipe=new Recipe(recipeTitle.getText().toString(), user.getUid());
-            recipe.setCookTime(cookTime.getText().toString());
-            cookTime.setText(difficulty);
-            recipe.setUid(user.getUid());
-            recipe.setDifficulty(difficulty);
-            recipe.setPicture(stringRecipeImage);
-            recipe.setInstructions(allInstructions);
-            recipe.setFilterKashroot(filterKashroot);
-            recipe.setFilterType(filterType);
-            recipe.setIngridiantsArrayList(allIngredients);
-            recipe.setRecipeID(refAllRecipes.push().getKey());
-            refAllRecipes.child(recipe.getRecipeID()).setValue(recipe);
-            Intent intent=new Intent(CreateRecipe.this, HomePageActivity.class);
-            startActivity(intent);
-        }
-        else{
+
+            refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        String str = data.getKey();
+                        if (user.getUid().equals(str)) {
+                            userCurrent = data.getValue(User.class);
+                        }
+                    }
+                    Recipe recipe = new Recipe(recipeTitle.getText().toString(), user.getUid());
+                    recipe.setCookTime(cookTime.getText().toString());
+                    cookTime.setText(difficulty);
+                    recipe.setUid(user.getUid());
+                    recipe.setDifficulty(difficulty);
+                    recipe.setPicture(stringRecipeImage);
+                    recipe.setInstructions(allInstructions);
+                    recipe.setFilterKashroot(filterKashroot);
+                    recipe.setFilterType(filterType);
+                    recipe.setIngridiantsArrayList(allIngredients);
+                    recipe.setRecipeID(refAllRecipes.push().getKey());
+                    recipe.setName(userCurrent.getName());
+                    userCurrent.addNumOfRecipes();
+                    refAllRecipes.child(recipe.getRecipeID()).setValue(recipe);
+                    Intent intent = new Intent(CreateRecipe.this, HomePageActivity.class);
+                    startActivity(intent);
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        } else {
             Toast.makeText(this, "חובה למלא את כל השדות", Toast.LENGTH_SHORT).show();
         }
     }

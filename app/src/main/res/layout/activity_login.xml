@@ -59,10 +59,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <TextView
+                android:id="@+id/textSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="start"
+                android:text="אין לך חשבון?"
+                android:textAlignment="viewStart"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
             <Button
                 android:id="@+id/ButtonSignUp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@android:color/transparent"
@@ -70,20 +80,12 @@
                 android:textColor="#118EFF"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/textSignUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="אין לך חשבון?"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_marginTop="20dp"
-                android:gravity="start"
+                android:gravity="start|center_vertical"
                 android:textAlignment="viewStart" />
+
+
+
+
 
         </LinearLayout>
 

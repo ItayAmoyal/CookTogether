@@ -2,7 +2,11 @@ package com.example.cooktogether;
 
 import static com.example.cooktogether.FBRef.refAuth;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,15 +31,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity {
+    private static final String CHANNEL_ID="noti_ID";
+    private static final String CHANNEL_NAME="noti_NAME";
+    private static final int NOTIFICATION_ID=1;
     RecyclerView rvingredients, rvInstructions, rvComments;
     ImageButton rating1, rating2, rating3, rating4, rating5,backButton;
     ImageView ratingRecipe1, ratingRecipe2, ratingRecipe3, ratingRecipe5, ratingRecipe4;
-    TextView recipeTitle, cooktime;
+    TextView recipeTitle, cooktime,madeRecipe;
     ImageView recipePicture,picDifficulty;
     Boolean[]ratingsOn={false,false,false,false,false};
      Boolean[]ratingsRecipeOn={false,false,false,false,false};
     EditText writeComment;
     Recipe activeRecipe;
+    NotificationManager notificationManager;
+    NotificationChannel channel;
     FirebaseUser user =refAuth.getCurrentUser();
     Button submitComment, submitRating;
     ArrayList<String> ridFirebase = new ArrayList<>();
@@ -50,6 +59,7 @@ public class RecipeActivity extends AppCompatActivity {
         rvComments = findViewById(R.id.AllComments);
         recipeTitle = findViewById(R.id.textRecipeTitle);
         recipePicture = findViewById(R.id.imageRecipe);
+        madeRecipe=findViewById(R.id.textRecipeMade);
         writeComment = findViewById(R.id.editTextComment);
         cooktime = findViewById(R.id.cooktime);
         picDifficulty=findViewById(R.id.difficulty);
@@ -66,6 +76,11 @@ public class RecipeActivity extends AppCompatActivity {
         ratingRecipe3 = findViewById(R.id.Reciperating3);
         ratingRecipe4 = findViewById(R.id.Reciperating4);
         ratingRecipe5 = findViewById(R.id.Reciperating5);
+        notificationManager=(NotificationManager)RecipeActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+             channel=new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
         ImageView[] recipeRatings={ratingRecipe1,ratingRecipe2,ratingRecipe3,ratingRecipe4,ratingRecipe5};
         ImageButton[] ratings={rating1,rating2,rating3,rating4,rating5};
         for (int i = 0; i < 5; i++) {
@@ -174,6 +189,7 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         cooktime.setText("זמן הכנה: "+activeRecipe.getCookTime());
+        madeRecipe.setText("נוצר על ידי "+activeRecipe.getName());
         recipeTitle.setText(activeRecipe.getName().toString());
         Glide.with(this)
                 .load(activeRecipe.getPicture())
@@ -226,6 +242,7 @@ public class RecipeActivity extends AppCompatActivity {
             setRecipeRating(activeRecipe.getAverageRating());
             FBRef.refAllRecipes.child(activeRecipe.getRecipeID()).setValue(activeRecipe);
             Toast.makeText(this, "הדירוג נוסף", Toast.LENGTH_SHORT).show();
+
         }
         else{
             Toast.makeText(this, "אי אפשר לדרג יותר מפעם אחת", Toast.LENGTH_SHORT).show();
