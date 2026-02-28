@@ -1,5 +1,6 @@
 package com.example.cooktogether;
 
+import static com.example.cooktogether.FBRef.FBDB;
 import static com.example.cooktogether.FBRef.refAllRecipes;
 import static com.example.cooktogether.FBRef.refAuth;
 import static com.example.cooktogether.FBRef.refImages;
@@ -77,7 +78,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
-
+        user=refAuth.getCurrentUser();
         btnBack=findViewById(R.id.backButton);
         recipeTitle=findViewById(R.id.etRecipeTitle1);
         spinnerDiff = findViewById(R.id.spinnerDifficulty);
@@ -234,7 +235,6 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                 && difficulty != arraydifficulty[0] && difficulty != ""
                 && (!cookTime.getText().toString().equals("")) && numOfInstructions > 0 && numOfIngridiants > 0)
         {
-
             refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -246,7 +246,6 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                     }
                     Recipe recipe = new Recipe(recipeTitle.getText().toString(), user.getUid());
                     recipe.setCookTime(cookTime.getText().toString());
-                    cookTime.setText(difficulty);
                     recipe.setUid(user.getUid());
                     recipe.setDifficulty(difficulty);
                     recipe.setPicture(stringRecipeImage);
@@ -255,8 +254,6 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                     recipe.setFilterType(filterType);
                     recipe.setIngridiantsArrayList(allIngredients);
                     recipe.setRecipeID(refAllRecipes.push().getKey());
-                    recipe.setName(userCurrent.getName());
-                    userCurrent.addNumOfRecipes();
                     refAllRecipes.child(recipe.getRecipeID()).setValue(recipe);
                     Intent intent = new Intent(CreateRecipe.this, HomePageActivity.class);
                     startActivity(intent);

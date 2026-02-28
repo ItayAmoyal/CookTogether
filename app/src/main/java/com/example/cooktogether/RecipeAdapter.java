@@ -55,7 +55,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
         Recipe recipe = recipes.get(position);
         holder.textRecipeName.setText(recipe.getName());
-        holder.textCookTime.setText("Cook time: " + recipe.getCookTime());
+        holder.textCookTime.setText("זמן הכנה: " + recipe.getCookTime());
         ImageView[]ratings= {holder.rating1, holder.rating2, holder.rating3, holder.rating4, holder.rating5};
         for (int i = 0; i < 5; i++) {
             ratings[i].setImageResource(R.drawable.emptystar);

@@ -1,7 +1,8 @@
 package com.example.cooktogether;
 
 import static com.example.cooktogether.FBRef.refAuth;
-
+import static com.example.cooktogether.FBRef.refUsers;
+import com.example.cooktogether.R;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -43,8 +44,10 @@ public class RecipeActivity extends AppCompatActivity {
      Boolean[]ratingsRecipeOn={false,false,false,false,false};
     EditText writeComment;
     Recipe activeRecipe;
+    Button btnFavorite;
     NotificationManager notificationManager;
     NotificationChannel channel;
+    User userCurrent=new User();
     FirebaseUser user =refAuth.getCurrentUser();
     Button submitComment, submitRating;
     ArrayList<String> ridFirebase = new ArrayList<>();
@@ -60,6 +63,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipeTitle = findViewById(R.id.textRecipeTitle);
         recipePicture = findViewById(R.id.imageRecipe);
         madeRecipe=findViewById(R.id.textRecipeMade);
+        btnFavorite=findViewById(R.id.btnAddToFavorites);
         writeComment = findViewById(R.id.editTextComment);
         cooktime = findViewById(R.id.cooktime);
         picDifficulty=findViewById(R.id.difficulty);
@@ -124,9 +128,44 @@ public class RecipeActivity extends AppCompatActivity {
                 AddRating(GetRating());
             }
         });
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            String str = data.getKey();
+                            if (user.getUid().equals(str)) {
+                                userCurrent = data.getValue(User.class);
+                            }
+                        }
+                        if (activeRecipe != null && userCurrent != null) {
+                            if (userCurrent.getFavRecipesId() == null) {
+                                userCurrent.setFavRecipesId(new ArrayList<>());
+                            }
+                                if(userCurrent.AddFavRecipesId(activeRecipe.getRecipeID()))
+                                {
+                                    refUsers.child(userCurrent.getUid()).setValue(userCurrent);
+                                    Toast.makeText(RecipeActivity.this, "המתכון נוסף למועדפים!", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(RecipeActivity.this, "מתכון זה כבר נוסף למועדפים ", Toast.LENGTH_SHORT).show();
+                                }
+                        }
+                    }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+            }
+        });
     }
 
-    //פעולות
+    //פעולות------------------------------------------------------------------
 
 
 

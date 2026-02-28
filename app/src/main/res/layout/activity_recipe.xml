@@ -299,5 +299,21 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
+        <Button
+            android:id="@+id/btnAddToFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:text="הוסף למועדפים"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:background="@drawable/bg_favorite_button"
+            android:elevation="6dp"
+            android:letterSpacing="0.05" />
+
+
     </LinearLayout>
 </ScrollView>

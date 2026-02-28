@@ -7,6 +7,7 @@ public class User {
 
     private String Uid;
     private String pass;
+    private ArrayList<String>favRecipesId;
     private int numOfRecepies;
     private String email;
     private boolean alarm=false;
@@ -18,9 +19,33 @@ public class User {
         this.email=email;
         this.pass=pass;
         this.numOfRecepies=0;
+        this.favRecipesId=new ArrayList<>();
     }
     public User(){
 
+    }
+
+    public ArrayList<String> getFavRecipesId() {
+        return favRecipesId;
+    }
+
+    public void setFavRecipesId(ArrayList<String> favRecipesId) {
+        this.favRecipesId = favRecipesId;
+    }
+    public Boolean AddFavRecipesId(String Rid) {
+        int flag=0;
+        for (String recipeID : this.favRecipesId) {
+            if (recipeID.equals(Rid)){
+                flag++;
+            }
+        }
+        if(flag==0){
+            this.favRecipesId.add(Rid);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public int getNumOfRecepies() {
