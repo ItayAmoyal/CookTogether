@@ -81,7 +81,13 @@ public class FavoriteRecipes extends AppCompatActivity {
 
                 favoritesAdapter = new RecipeAdapter(FavoriteRecipes.this,favoriteRecipes);
                 rvFavoriteRecipes.setAdapter(favoritesAdapter);
-
+                favoritesAdapter.setOnRecipeClickListener(position -> {
+                    Recipe clicked;
+                    clicked = favoriteRecipes.get(position);
+                    Intent intent=new Intent(FavoriteRecipes.this, RecipeActivity.class);
+                    intent.putExtra("Rid",clicked.getRecipeID());
+                    startActivity(intent);
+                });
             }
 
             @Override

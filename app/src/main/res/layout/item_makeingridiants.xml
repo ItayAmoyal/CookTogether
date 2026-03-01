@@ -24,15 +24,6 @@
         android:textAlignment="viewStart" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="כמות:"
-        android:textColor="#555555"
-        android:textSize="16sp"
-        android:layout_marginEnd="4dp"
-        android:gravity="start"
-        android:textAlignment="viewStart" />
-    <TextView
         android:id="@+id/IngredientsAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +33,6 @@
         android:textStyle="bold"
         android:gravity="start"
         android:textAlignment="viewStart" />
-
 
     <TextView
         android:id="@+id/Unit"
@@ -54,6 +44,8 @@
         android:textStyle="bold"
         android:gravity="start"
         android:textAlignment="viewStart" />
+
+
     <ImageButton
         android:id="@+id/btnDeleteIngredient"
         android:layout_width="40dp"

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -225,6 +226,7 @@ public class RecipeActivity extends AppCompatActivity {
         cooktime.setText("זמן הכנה: "+activeRecipe.getCookTime());
         madeRecipe.setText("נוצר על ידי "+userCurrent.getName());
         recipeTitle.setText(activeRecipe.getName().toString());
+        Log.d("RECIPE_URI", "Uri = " + activeRecipe.getPicture());
         Glide.with(this)
                 .load(activeRecipe.getPicture())
                 .into(recipePicture);

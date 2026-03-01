@@ -38,8 +38,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.Blob;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -180,6 +183,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                     filterKashroot = bundle.getString("kashroot");
                 }
         );
+
         //תמונת המתכון
         btnimageRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,6 +257,8 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                     recipe.setFilterType(filterType);
                     recipe.setIngridiantsArrayList(allIngredients);
                     recipe.setRecipeID(refAllRecipes.push().getKey());
+                    userCurrent.addNumOfRecipes();
+                    refUsers.child(user.getUid()).setValue(userCurrent);
                     refAllRecipes.child(recipe.getRecipeID()).setValue(recipe);
                     Toast.makeText(CreateRecipe.this, "המתכוו הועלה בהצלחה!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CreateRecipe.this, HomePageActivity.class);
@@ -340,15 +346,23 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
 
     //העלאת תמונה מהגלריה
     public void gallery(View view){
-        Intent si=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(si,REQUEST_PICK_IMAGE);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, 100);
     }
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode==REQUEST_PICK_IMAGE&&resultCode == Activity.RESULT_OK&&data!=null){
-            Uri imageUri =data.getData();
-            uploadImage(imageUri);
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            getContentResolver().takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+            );
+            uploadImage(uri);
         }
     }
     private void uploadImage(Uri imageUri){
@@ -363,16 +377,17 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                 Map<String,Object> imageMap=new HashMap<>();
                 imageMap.put("ImageName",fileName);
                 imageMap.put("ImageData", Blob.fromBytes(imageBytes));
+                Uri localUri = copyToInternalStorage(imageUri);
                 refImages.document(fileName).set(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 pd.dismiss();
                                 Toast.makeText(CreateRecipe.this,"ההעלאה בוצעה בהצלחה",Toast.LENGTH_SHORT).show();
                                 if(flagImage ==0){
-                                    AddImageInstructions(imageUri,fileName);
+                                    AddImageInstructions(localUri,fileName);
                                 }
                                 else{
-                                    AddRecipeImage(imageUri,fileName);
+                                    AddRecipeImage(localUri,fileName);
                                 }
                             }
                         })
@@ -403,5 +418,25 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         stringRecipeImage= imageUri.toString();
         recipeImage.setImageURI(imageUri);
 
+    }
+    private Uri copyToInternalStorage(Uri originalUri) throws IOException {
+
+        String fileName = UUID.randomUUID().toString() + ".jpg";
+        File file = new File(getFilesDir(), fileName);
+
+        InputStream inputStream = getContentResolver().openInputStream(originalUri);
+        OutputStream outputStream = new FileOutputStream(file);
+
+        byte[] buffer = new byte[4096];
+        int length;
+
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+
+        inputStream.close();
+        outputStream.close();
+
+        return Uri.fromFile(file);
     }
 }
