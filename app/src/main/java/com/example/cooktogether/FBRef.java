@@ -13,8 +13,6 @@ public class FBRef {
     public static FirebaseDatabase FBDB=FirebaseDatabase.getInstance();
     public static DatabaseReference refAllRecipes=FBDB.getReference("AllRecipes");
     public static DatabaseReference refComments=FBDB.getReference("Comments");
-    public static DatabaseReference refRecipesByUser=FBDB.getReference("RecipesByUser");
-    public static DatabaseReference refFilters=FBDB.getReference("Filters");
     public static DatabaseReference refUsers=FBDB.getReference("Users");
-    public static DatabaseReference refFavRecipes=FBDB.getReference("FavRecipes");
+
 }

@@ -49,14 +49,6 @@ public class HomePageActivity extends AppCompatActivity {
         settingsBtn=findViewById(R.id.buttonSettings);
         etSerchBar=findViewById(R.id.editTextSearch);
         btnCreateRecipe=findViewById(R.id.recipeButton2);
-        ImageButton btnMyRecipes=findViewById(R.id.recipeButton1);
-        btnMyRecipes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(HomePageActivity.this,RecipeActivity.class);
-                startActivity(intent);
-            }
-        });
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

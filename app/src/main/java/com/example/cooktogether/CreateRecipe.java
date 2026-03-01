@@ -178,7 +178,6 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                 (requestKey, bundle) -> {
                     filterType = bundle.getString("type");
                     filterKashroot = bundle.getString("kashroot");
-                    cookTime.setText(filterKashroot);
                 }
         );
         //תמונת המתכון
@@ -255,6 +254,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                     recipe.setIngridiantsArrayList(allIngredients);
                     recipe.setRecipeID(refAllRecipes.push().getKey());
                     refAllRecipes.child(recipe.getRecipeID()).setValue(recipe);
+                    Toast.makeText(CreateRecipe.this, "המתכוו הועלה בהצלחה!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CreateRecipe.this, HomePageActivity.class);
                     startActivity(intent);
                 }

@@ -5,7 +5,7 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:background="@drawable/orange_background"
+        android:background="#CEB9B9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -227,6 +227,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:backgroundTint="#FF0000"
             android:text="הוסף תמונה"
             android:gravity="center"
             android:textAlignment="center" />
@@ -241,6 +242,7 @@
             android:id="@+id/btnAddInstruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#1416DC"
             android:layout_marginTop="6dp"
             android:text="הוסף הוראה"
             android:gravity="center"

@@ -100,9 +100,13 @@ ImageView picture;
                         "אחרת החזר בדיוק:\n" +
                         "קלוריות:(הקלד מספר)\nחלבון:(הקלד מספר) גרם\nפחמימות:(הקלד מספר) גרם\nשומן:(הקלד מספר) גרם";
         GeminiManager geminiManager=new GeminiManager();
+        ProgressDialog pd = new ProgressDialog(this);
+        pd.setTitle("מחכה לתשובה");
+        pd.show();
         geminiManager.sendTextWithPrompt(prompt, picBitmap, new GeminiCallBack() {
             @Override
             public void onSuccess(String result) {
+                pd.dismiss();
                 runOnUiThread(() -> {
                     if (!result.trim().equals("1")) {
                         flag=1;

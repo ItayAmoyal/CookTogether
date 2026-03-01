@@ -62,14 +62,14 @@ public class RecipeActivity extends AppCompatActivity {
         rvComments = findViewById(R.id.AllComments);
         recipeTitle = findViewById(R.id.textRecipeTitle);
         recipePicture = findViewById(R.id.imageRecipe);
-        madeRecipe=findViewById(R.id.textRecipeMade);
-        btnFavorite=findViewById(R.id.btnAddToFavorites);
+        madeRecipe = findViewById(R.id.textRecipeMade);
+        btnFavorite = findViewById(R.id.btnAddToFavorites);
         writeComment = findViewById(R.id.editTextComment);
         cooktime = findViewById(R.id.cooktime);
-        picDifficulty=findViewById(R.id.difficulty);
+        picDifficulty = findViewById(R.id.difficulty);
         submitRating = findViewById(R.id.submitRatingButton);
         submitComment = findViewById(R.id.submitCommentButton);
-        backButton=findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
         rating1 = findViewById(R.id.rating1);
         rating2 = findViewById(R.id.rating2);
         rating3 = findViewById(R.id.rating3);
@@ -80,19 +80,19 @@ public class RecipeActivity extends AppCompatActivity {
         ratingRecipe3 = findViewById(R.id.Reciperating3);
         ratingRecipe4 = findViewById(R.id.Reciperating4);
         ratingRecipe5 = findViewById(R.id.Reciperating5);
-        notificationManager=(NotificationManager)RecipeActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-             channel=new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT);
+        notificationManager = (NotificationManager) RecipeActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-        ImageView[] recipeRatings={ratingRecipe1,ratingRecipe2,ratingRecipe3,ratingRecipe4,ratingRecipe5};
-        ImageButton[] ratings={rating1,rating2,rating3,rating4,rating5};
+        ImageView[] recipeRatings = {ratingRecipe1, ratingRecipe2, ratingRecipe3, ratingRecipe4, ratingRecipe5};
+        ImageButton[] ratings = {rating1, rating2, rating3, rating4, rating5};
         for (int i = 0; i < 5; i++) {
-            int index=i;
+            int index = i;
             ratings[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setRating(index+1);
+                    setRating(index + 1);
                 }
             });
         }
@@ -102,15 +102,29 @@ public class RecipeActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(RecipeActivity.this, HomePageActivity.class);
+                Intent intent = new Intent(RecipeActivity.this, HomePageActivity.class);
                 startActivity(intent);
             }
         });
-        //get the RecipeId
-        Intent intent=getIntent();
+        //get the RecipeId+User
+        Intent intent = getIntent();
         String correctRid = intent.getStringExtra("Rid");
+        refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String str = data.getKey();
+                    if (user.getUid().equals(str)) {
+                        userCurrent = data.getValue(User.class);
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
         //קריאת נתונים
         GetRecipeFromFireBase(correctRid);
 
@@ -131,36 +145,17 @@ public class RecipeActivity extends AppCompatActivity {
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot data : snapshot.getChildren()) {
-                            String str = data.getKey();
-                            if (user.getUid().equals(str)) {
-                                userCurrent = data.getValue(User.class);
-                            }
-                        }
-                        if (activeRecipe != null && userCurrent != null) {
-                            if (userCurrent.getFavRecipesId() == null) {
-                                userCurrent.setFavRecipesId(new ArrayList<>());
-                            }
-                                if(userCurrent.AddFavRecipesId(activeRecipe.getRecipeID()))
-                                {
-                                    refUsers.child(userCurrent.getUid()).setValue(userCurrent);
-                                    Toast.makeText(RecipeActivity.this, "המתכון נוסף למועדפים!", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(RecipeActivity.this, "מתכון זה כבר נוסף למועדפים ", Toast.LENGTH_SHORT).show();
-                                }
-                        }
+                if (activeRecipe != null && userCurrent != null) {
+                    if (userCurrent.getFavRecipesId() == null) {
+                        userCurrent.setFavRecipesId(new ArrayList<>());
                     }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    if (userCurrent.AddFavRecipesId(activeRecipe.getRecipeID())) {
+                        refUsers.child(userCurrent.getUid()).setValue(userCurrent);
+                        Toast.makeText(RecipeActivity.this, "המתכון נוסף למועדפים!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RecipeActivity.this, "מתכון זה כבר נוסף למועדפים ", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }
@@ -228,7 +223,7 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         cooktime.setText("זמן הכנה: "+activeRecipe.getCookTime());
-        madeRecipe.setText("נוצר על ידי "+activeRecipe.getName());
+        madeRecipe.setText("נוצר על ידי "+userCurrent.getName());
         recipeTitle.setText(activeRecipe.getName().toString());
         Glide.with(this)
                 .load(activeRecipe.getPicture())
