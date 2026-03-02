@@ -48,7 +48,7 @@ public class RecipeActivity extends AppCompatActivity {
     Button btnFavorite;
     NotificationManager notificationManager;
     NotificationChannel channel;
-    User userCurrent=new User();
+    User userCurrent=new User(),userMadeRecipe=new User();
     FirebaseUser user =refAuth.getCurrentUser();
     Button submitComment, submitRating;
     ArrayList<String> ridFirebase = new ArrayList<>();
@@ -121,11 +121,13 @@ public class RecipeActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
         //קריאת נתונים
         GetRecipeFromFireBase(correctRid);
 
@@ -184,6 +186,24 @@ public class RecipeActivity extends AppCompatActivity {
                     Recipe recipeData = data.getValue(Recipe.class);
                     activeRecipe = new Recipe(recipeData);
                 }
+                //קבלת היוזר שהכין את המתכון
+                refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            String str = data.getKey();
+                            if (activeRecipe.getUid().equals(str)) {
+                                userMadeRecipe = data.getValue(User.class);
+                            }
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 GetComments(correctRid);
             }
 
@@ -224,7 +244,7 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         cooktime.setText("זמן הכנה: "+activeRecipe.getCookTime());
-        madeRecipe.setText("נוצר על ידי "+userCurrent.getName());
+        madeRecipe.setText("נוצר על ידי "+userMadeRecipe.getName());
         recipeTitle.setText(activeRecipe.getName().toString());
         Log.d("RECIPE_URI", "Uri = " + activeRecipe.getPicture());
         Glide.with(this)
@@ -274,7 +294,7 @@ public class RecipeActivity extends AppCompatActivity {
         Toast.makeText(this, "התגובה נוספה", Toast.LENGTH_SHORT).show();
     }
     private void AddRating(int num){
-        if( activeRecipe.AddRating(num,"Itay")==true) {
+        if( activeRecipe.AddRating(num,user.getUid())==true) {
             setRecipeRating(activeRecipe.getAverageRating());
             FBRef.refAllRecipes.child(activeRecipe.getRecipeID()).setValue(activeRecipe);
             Toast.makeText(this, "הדירוג נוסף", Toast.LENGTH_SHORT).show();
