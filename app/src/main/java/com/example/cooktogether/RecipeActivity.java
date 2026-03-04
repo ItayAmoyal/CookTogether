@@ -1,12 +1,15 @@
 package com.example.cooktogether;
 
 import static com.example.cooktogether.FBRef.refAuth;
+import static com.example.cooktogether.FBRef.refImages;
 import static com.example.cooktogether.FBRef.refUsers;
 import com.example.cooktogether.R;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,11 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -227,6 +234,20 @@ public class RecipeActivity extends AppCompatActivity {
                     Comments commentsData = data.getValue(Comments.class);
                     commentsFireBase.add(commentsData);
                 }
+                DocumentReference docRef = refImages.document(activeRecipe.getPicture());
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            Blob blob = documentSnapshot.getBlob("ImageData");
+                            if (blob != null) {
+                                byte[] bytes = blob.toBytes();
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                recipePicture.setImageBitmap(bitmap);
+                            }
+                        }
+                    }
+                });
                 setRecipeInscreen();
             }
 
@@ -246,10 +267,8 @@ public class RecipeActivity extends AppCompatActivity {
         cooktime.setText("זמן הכנה: "+activeRecipe.getCookTime());
         madeRecipe.setText("נוצר על ידי "+userMadeRecipe.getName());
         recipeTitle.setText(activeRecipe.getName().toString());
-        Log.d("RECIPE_URI", "Uri = " + activeRecipe.getPicture());
-        Glide.with(this)
-                .load(activeRecipe.getPicture())
-                .into(recipePicture);
+
+
         if(activeRecipe.getDifficulty().equals("Easy")) {
             Glide.with(this)
                     .load(R.drawable.diffeasy)
@@ -271,8 +290,10 @@ public class RecipeActivity extends AppCompatActivity {
         rvInstructions.setLayoutManager(new LinearLayoutManager(this));
         rvInstructions.setHasFixedSize(false);
         rvInstructions.setNestedScrollingEnabled(false);
+        //
         InstructionsAdapter instructionsAdapter=new InstructionsAdapter(this,activeRecipe.getInstructions());
         rvInstructions.setAdapter(instructionsAdapter);
+        //
         rvComments.setLayoutManager(new LinearLayoutManager(this));
         CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
         rvComments.setAdapter(commentsAdapter);

@@ -6,6 +6,8 @@ import static com.example.cooktogether.FBRef.refUsers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -29,12 +31,21 @@ public class FavoriteRecipes extends AppCompatActivity {
     User userCurrent=new User();
     RecyclerView rvFavoriteRecipes;
     RecipeAdapter favoritesAdapter;
+    ImageButton btnBack;
     ArrayList<Recipe> favoriteRecipes=new ArrayList<>();
     ArrayList<String> favRecipes=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_recipes);
+        btnBack=findViewById(R.id.backButton2);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(FavoriteRecipes.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         rvFavoriteRecipes = findViewById(R.id.rvFavoriteRecipes);
         refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

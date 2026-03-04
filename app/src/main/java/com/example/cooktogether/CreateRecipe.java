@@ -11,6 +11,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -59,10 +61,10 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<InstructionItem>allInstructions;
     Button btnAddIngredient,btnAddImageIns,btnAddInstruction,btnimageRecipe,btnCreateRecipe;
     ArrayList<Ingredient>allIngredients=new ArrayList<>();
-    ArrayList<Uri>allImages=new ArrayList<>();
+    ArrayList<Bitmap>allImages=new ArrayList<>();
     ArrayList<String>allImagesID=new ArrayList<>();
     ArrayList<String>instructionsText=new ArrayList<>();
-    ArrayList<ArrayList<Uri>> instructionsimages=new ArrayList<>();
+    ArrayList<ArrayList<Bitmap>> instructionsimages=new ArrayList<>();
 
     IngrediantCreateAdapter ingredientsAdapter;
     ImageAdapter imageAdapter;
@@ -71,7 +73,6 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     ImageView recipeImage;
     User userCurrent;
     FirebaseUser user;
-    Boolean flagContinue=false;
     String filterKashroot="",filterType="";
     ArrayAdapter<String> adpMeasure,adpDifficulty;
     int flagImage =0;
@@ -102,7 +103,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         rvImages= findViewById(R.id.rvImagesinstructions);
         imageAdapter=new ImageAdapter(this, allImages,allImagesID, new ImageAdapter.OnDeleteListener(){
             @Override
-            public void onDelete(int position, Uri uri) {
+            public void onDelete(int position, Bitmap bitmap) {
 
             }
         });
@@ -316,9 +317,8 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             instructionsText.add(text);
             instructionsimages.add(new ArrayList<>(allImages));
             ArrayList<String>allImagesString=new ArrayList<>();
-            for(Uri item:allImages){
-                String newItem=item.toString();
-                allImagesString.add(newItem);
+            for(String item:allImagesID){
+                allImagesString.add(item);
             }
             InstructionItem instructionItem=new InstructionItem(text,allImagesString);
             allInstructions.add(instructionItem);
@@ -378,16 +378,17 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                 imageMap.put("ImageName",fileName);
                 imageMap.put("ImageData", Blob.fromBytes(imageBytes));
                 Uri localUri = copyToInternalStorage(imageUri);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 refImages.document(fileName).set(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 pd.dismiss();
                                 Toast.makeText(CreateRecipe.this,"ההעלאה בוצעה בהצלחה",Toast.LENGTH_SHORT).show();
                                 if(flagImage ==0){
-                                    AddImageInstructions(localUri,fileName);
+                                    AddImageInstructions(bitmap,fileName);
                                 }
                                 else{
-                                    AddRecipeImage(localUri,fileName);
+                                    AddRecipeImage(bitmap,fileName);
                                 }
                             }
                         })
@@ -408,15 +409,15 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     //הוספת תמונה להוראה
-    private void AddImageInstructions(Uri imageUri,String imageID){
-        imageAdapter.addImage(imageUri,imageID);
+    private void AddImageInstructions(Bitmap bitmap,String fileName){
+        imageAdapter.addImage(bitmap,fileName);
     }
 
     //העלאת תמונת התמכון
-    private void AddRecipeImage(Uri imageUri,String imageID){
+    private void AddRecipeImage(Bitmap bitmap,String fileName){
         isImage=true;
-        stringRecipeImage= imageUri.toString();
-        recipeImage.setImageURI(imageUri);
+        stringRecipeImage= fileName;
+        recipeImage.setImageBitmap(bitmap);
 
     }
     private Uri copyToInternalStorage(Uri originalUri) throws IOException {

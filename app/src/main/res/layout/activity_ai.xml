@@ -6,7 +6,16 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:background="#F6F7FB">
-
+    <ImageButton
+        android:id="@+id/backButton1"
+        android:layout_width="149dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:clipToOutline="true"
+        android:contentDescription="חזרה אחורה"
+        android:padding="6dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back_icon" />
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
@@ -56,7 +65,7 @@
     <LinearLayout
         android:id="@+id/cardUpload"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="418dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/bg_ai_chat_card"
         android:elevation="3dp"
@@ -67,23 +76,23 @@
             android:id="@+id/tvUploadLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:text="העלאת תמונה מהגלריה"
+            android:textAlignment="viewStart"
             android:textColor="#111827"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="start"
-            android:textAlignment="viewStart" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvUploadHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="בחר תמונה של הארוחה שלך."
-            android:textColor="#6B7280"
-            android:textSize="13sp"
             android:gravity="start"
-            android:textAlignment="viewStart" />
+            android:text="בחר תמונה של הארוחה שלך."
+            android:textAlignment="viewStart"
+            android:textColor="#6B7280"
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/btnPickFromGallery"
@@ -91,10 +100,10 @@
             android:layout_height="48dp"
             android:layout_marginTop="14dp"
             android:backgroundTint="#E72626"
-            android:text="בחר מהגלריה"
-            android:textAllCaps="false"
             android:gravity="center"
-            android:textAlignment="center" />
+            android:text="בחר מהגלריה"
+            android:textAlignment="center"
+            android:textAllCaps="false" />
 
         <ImageView
             android:id="@+id/imgPreview"

@@ -1,6 +1,7 @@
 package com.example.cooktogether;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 public class ImagesOnlyAdapter extends RecyclerView.Adapter<ImagesOnlyAdapter.ImageVH> {
 
     private final Context context;
-    private final ArrayList<Uri> images;
+    private final ArrayList<Bitmap> images;
 
-    public ImagesOnlyAdapter(Context context, ArrayList<Uri> images) {
+    public ImagesOnlyAdapter(Context context, ArrayList<Bitmap> images) {
         this.context = context;
         this.images = (images != null) ? images : new ArrayList<>();
     }
@@ -34,7 +35,7 @@ public class ImagesOnlyAdapter extends RecyclerView.Adapter<ImagesOnlyAdapter.Im
 
     @Override
     public void onBindViewHolder(@NonNull ImageVH holder, int position) {
-        holder.imgItem.setImageURI(images.get(position));
+        holder.imgItem.setImageBitmap(images.get(position));
     }
 
     @Override

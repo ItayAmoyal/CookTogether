@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public class InstructionItem {
 
     private String instructionText;
-    private ArrayList<String> imageUri;
+    private ArrayList<String> fileName;
 
-    public InstructionItem(String instructionText, ArrayList<String> imageUri) {
+    public InstructionItem(String instructionText, ArrayList<String> fileName) {
         this.instructionText = instructionText;
-        this.imageUri = imageUri;
+        this.fileName = fileName;
     }
     public InstructionItem(){
 
@@ -21,16 +21,16 @@ public class InstructionItem {
         this.instructionText = instructionText;
     }
 
-    public void setImageUri(ArrayList<String> imageUri) {
-        this.imageUri = imageUri;
+    public void setFileName(ArrayList<String> fileName) {
+        this.fileName = fileName;
     }
 
     public String getInstructionText() {
         return instructionText;
     }
 
-    public ArrayList<String> getImageUri() {
-        return imageUri;
+    public ArrayList<String> getFileName() {
+        return fileName;
     }
 }
 

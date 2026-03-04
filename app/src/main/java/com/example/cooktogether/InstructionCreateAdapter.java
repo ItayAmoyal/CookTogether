@@ -3,6 +3,7 @@ package com.example.cooktogether;
 import static com.example.cooktogether.CreateRecipe.numOfInstructions;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +25,12 @@ public class InstructionCreateAdapter extends RecyclerView.Adapter<InstructionCr
 
     private final Context context;
     private final ArrayList<String> instructionsText;
-    private final ArrayList<ArrayList<Uri>> instructionImages;
+    private final ArrayList<ArrayList<Bitmap>> instructionImages;
     private final OnInstructionDeleteListener deleteListener;
 
     public InstructionCreateAdapter(Context context,
                                    ArrayList<String> instructionsText,
-                                   ArrayList<ArrayList<Uri>> instructionImages,
+                                   ArrayList<ArrayList<Bitmap>> instructionImages,
                                    OnInstructionDeleteListener deleteListener) {
         this.context = context;
         this.instructionsText = (instructionsText != null) ? instructionsText : new ArrayList<>();

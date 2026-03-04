@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ int REQUEST_PICK_IMAGE=303;
 Bitmap picBitmap;
 int flag=0;
 ImageView picture;
+ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,14 @@ ImageView picture;
         btnPick=findViewById(R.id.btnPickFromGallery);
         btnEst=findViewById(R.id.btnEstimateMacros);
         picture=findViewById(R.id.imgPreview);
+        btnBack=findViewById(R.id.backButton1);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(AiActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         btnPick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
