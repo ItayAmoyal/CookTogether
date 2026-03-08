@@ -269,17 +269,17 @@ public class RecipeActivity extends AppCompatActivity {
         recipeTitle.setText(activeRecipe.getName().toString());
 
 
-        if(activeRecipe.getDifficulty().equals("Easy")) {
+        if(activeRecipe.getDifficulty().equals("קל")) {
             Glide.with(this)
                     .load(R.drawable.diffeasy)
                     .into(picDifficulty);
         }
-        if(activeRecipe.getDifficulty().equals("Medium")) {
+        if(activeRecipe.getDifficulty().equals("בינוני")) {
             Glide.with(this)
                     .load(R.drawable.midddiff)
                     .into(picDifficulty);
         }
-        if(activeRecipe.getDifficulty().equals("Hard")) {
+        if(activeRecipe.getDifficulty().equals("קשה")) {
             Glide.with(this)
                     .load(R.drawable.harddiff)
                     .into(picDifficulty);
@@ -304,7 +304,7 @@ public class RecipeActivity extends AppCompatActivity {
     //הוספת תגובה
     private void AddCommment(String correctID){
         String comment=writeComment.getText().toString();
-        String userName="Itay";
+        String userName=userCurrent.getName();
         Comments newComment=new Comments(userName,comment,correctID);
         String keyId1=FBRef.refComments.push().getKey();
         newComment.setKeyId(keyId1);

@@ -1,6 +1,10 @@
 package com.example.cooktogether;
 
+import static com.example.cooktogether.FBRef.refImages;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -64,13 +72,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             ratings[i].setImageResource(R.drawable.fullstar);
         }
         String pictureString = recipe.getPicture();
-        if (pictureString != null && !pictureString.isEmpty()) {
-            Uri uri = Uri.parse(pictureString);
-            Glide.with(context)
-                    .load(uri)
-                    .placeholder(android.R.color.darker_gray)
-                    .centerCrop()
-                    .into(holder.imageRecipe);
+        if (pictureString != null) {
+            DocumentReference docRef = refImages.document(pictureString);
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        Blob blob = documentSnapshot.getBlob("ImageData");
+                        if (blob != null) {
+                            byte[] bytes = blob.toBytes();
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            holder.imageRecipe.setImageBitmap(bitmap);
+                        }
+                    }
+                }
+            });
+
+
         } else {
             holder.imageRecipe.setImageResource(android.R.color.darker_gray);
         }
