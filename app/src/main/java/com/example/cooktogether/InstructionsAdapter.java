@@ -36,8 +36,6 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
     private Context context;
     private ArrayList<InstructionItem> instructionList;
     private ImagesOnlyAdapter imagesOnlyAdapter;
-    int size=0;
-
 
     public InstructionsAdapter(Context context, ArrayList<InstructionItem> instructionList) {
         this.context = context;
@@ -55,7 +53,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
     @Override
     public void onBindViewHolder(@NonNull InstructionViewHolder holder, int position) {
         InstructionItem item = instructionList.get(position);
-        size=0;
+        final int[] loadedCount = {0};;
         holder.textInstruction.setText(item.getInstructionText());
         ArrayList<String> images = item.getFileName();
         ArrayList<Bitmap> allImagesBitMap=new ArrayList<>();
@@ -72,9 +70,8 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
                                 byte[] bytes = blob.toBytes();
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 allImagesBitMap.add(bitmap);
-                                size++;
-                                if(size==images.size()){
-                                    holder.rvImageInstructions.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                                loadedCount[0]++;
+                                if(loadedCount[0]==images.size()){
                                     imagesOnlyAdapter = new ImagesOnlyAdapter(context, allImagesBitMap);
                                     holder.rvImageInstructions.setAdapter(imagesOnlyAdapter);
                                 }
@@ -106,6 +103,8 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
             textInstruction = itemView.findViewById(R.id.textInstruction);
             rvImageInstructions = itemView.findViewById(R.id.imageInstruction1);
+
+            rvImageInstructions.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.VERTICAL, false));
         }
     }
 }
