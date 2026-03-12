@@ -32,6 +32,8 @@ public class HomePageActivity extends AppCompatActivity {
     EditText etSerchBar;
     int flagFilter=0,flagfilter2;
     RecipeAdapter recipeAdapter;
+
+    ImageButton btnChats;
     String filterType="",filterKashroot="";
     ArrayList<Recipe>filteredRecipes1=new ArrayList<>();
     ArrayList<Recipe>filteredRecipes2=new ArrayList<>();
@@ -45,6 +47,7 @@ public class HomePageActivity extends AppCompatActivity {
         rvAllrecipes=findViewById(R.id.rvAllRecipes);
         btnAi=findViewById(R.id.recipeButton3);
         btnFilters=findViewById(R.id.FilterButton);
+        btnChats=findViewById(R.id.recipeButton5);
         btnFavRecipes=findViewById(R.id.recipeButton4);
         settingsBtn=findViewById(R.id.buttonSettings);
         etSerchBar=findViewById(R.id.editTextSearch);
@@ -67,6 +70,13 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(HomePageActivity.this,CreateRecipe.class);
+                startActivity(intent);
+            }
+        });
+        btnChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomePageActivity.this, AllChatsActivity.class);
                 startActivity(intent);
             }
         });

@@ -53,6 +53,7 @@ public class RecipeActivity extends AppCompatActivity {
     EditText writeComment;
     Recipe activeRecipe;
     Button btnFavorite;
+    Button btnChats;
     NotificationManager notificationManager;
     NotificationChannel channel;
     User userCurrent=new User(),userMadeRecipe=new User();
@@ -68,6 +69,7 @@ public class RecipeActivity extends AppCompatActivity {
         rvingredients = findViewById(R.id.rvIngredients);
         rvInstructions = findViewById(R.id.rvInstructions);
         rvComments = findViewById(R.id.AllComments);
+        btnChats=findViewById(R.id.btnChats);
         recipeTitle = findViewById(R.id.textRecipeTitle);
         recipePicture = findViewById(R.id.imageRecipe);
         madeRecipe = findViewById(R.id.textRecipeMade);
@@ -139,6 +141,20 @@ public class RecipeActivity extends AppCompatActivity {
         GetRecipeFromFireBase(correctRid);
 
 
+        btnChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(RecipeActivity.this,ChatsActivity.class);
+                if(!(userCurrent.getUid().equals(userMadeRecipe.getUid()))) {
+                    intent1.putExtra("user1", userCurrent);
+                    intent1.putExtra("user2", userMadeRecipe);
+                    startActivity(intent1);
+                }
+                else{
+                    Toast.makeText(RecipeActivity.this, "לא ניתן ליצור דו-שיח עם עצמך!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

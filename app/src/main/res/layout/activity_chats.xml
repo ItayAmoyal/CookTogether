@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtChatWith"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#EEEEEE"
+        android:gravity="center"
+        android:text="צ'אט עם יוצר המתכון"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChats"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#EEEEEE">
+
+        <EditText
+            android:id="@+id/editMessage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="כתוב הודעה..."
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="שלח 💬"/>
+    </LinearLayout>
+
+</LinearLayout>

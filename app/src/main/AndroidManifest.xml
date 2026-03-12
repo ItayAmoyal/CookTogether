@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CookTogether">
         <activity
+            android:name=".AllChatsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatsActivity"
+            android:exported="false" />
+        <activity
             android:name=".FavoriteRecipes"
             android:exported="false" />
 
