@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -78,12 +79,14 @@ public class ChatsActivity extends AppCompatActivity {
                     }
                 }
                 if(chatExits==false){
-                    allMessages=new ArrayList<>();
+                    allMessages.clear();
                     currentChat.setUser1Uid(user1.getUid());
                     currentChat.setUser2Uid(user2.getUid());
                     currentChat.setChatId(refAllChats.push().getKey());
                     currentChat.setAllMessages(allMessages);
-                    refAllChats.child(currentChat.getChatId()).setValue(currentChat);
+                    refAllChats.child(currentChat.getChatId())
+                            .setValue(currentChat)
+                            .addOnSuccessListener(unused -> startChatListener());
                 }
                 if(chatExits==true){
                     allMessages.clear();
@@ -94,6 +97,7 @@ public class ChatsActivity extends AppCompatActivity {
                     if(!allMessages.isEmpty()){
                     rvChat.scrollToPosition(allMessages.size() - 1);
                     }
+                    startChatListener();
                 }
             }
 
@@ -103,31 +107,6 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
-
-        chatListener=new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot data:snapshot.getChildren()) {
-                    if(currentChat.getChatId().equals(data.getKey())){
-                      Chat chat=data.getValue(Chat.class);
-                        if(chat.getAllMessages()!=null){
-                            allMessages.clear();
-                            allMessages.addAll(chat.getAllMessages());
-                        }
-                      messageAdapter.notifyDataSetChanged();
-                        if(!allMessages.isEmpty()){
-                            rvChat.scrollToPosition(allMessages.size() - 1);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        refAllChats.addValueEventListener(chatListener);
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,5 +127,32 @@ public class ChatsActivity extends AppCompatActivity {
             refAllChats.removeEventListener(chatListener);
         }
         super.onDestroy();
+    }
+    public void startChatListener(){
+
+        chatListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Chat chat = snapshot.getValue(Chat.class);
+
+                if(chat.getAllMessages()!=null){
+
+                    allMessages.clear();
+                    allMessages.addAll(chat.getAllMessages());
+
+                    messageAdapter.notifyDataSetChanged();
+
+                    if(!allMessages.isEmpty()){
+                        rvChat.scrollToPosition(allMessages.size()-1);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        };
+
+        refAllChats.child(currentChat.getChatId()).addValueEventListener(chatListener);
     }
 }

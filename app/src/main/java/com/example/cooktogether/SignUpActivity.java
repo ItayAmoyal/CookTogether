@@ -106,6 +106,27 @@ public class SignUpActivity extends AppCompatActivity {
                                             }
                                         });
                             }
+                            else {
+                                Exception exp =task.getException();
+                                if (exp instanceof FirebaseAuthInvalidUserException){
+                                        Toast.makeText(SignUpActivity.this, "כתובת אימייל לא תקינה", Toast.LENGTH_SHORT).show();
+                                }
+                                else if (exp instanceof FirebaseAuthWeakPasswordException){
+                                    Toast.makeText(SignUpActivity.this, "הסיסמה חלשה מדי", Toast.LENGTH_SHORT).show();
+                                }
+                                else if (exp instanceof FirebaseAuthUserCollisionException){
+                                    Toast.makeText(SignUpActivity.this, "משתמש כבר קיים במערכת", Toast.LENGTH_SHORT).show();
+                                }
+                                else if (exp instanceof FirebaseAuthInvalidCredentialsException){
+                                    Toast.makeText(SignUpActivity.this, "שגיאת אימות כללית", Toast.LENGTH_SHORT).show();
+                                }
+                                else if (exp instanceof FirebaseNetworkException){
+                                    Toast.makeText(SignUpActivity.this, "שגיאת רשת, בדוק את החיבור לאינטרנט", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(SignUpActivity.this, "אירעה שגיאה, נסה שוב מאוחר יותר", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     });
         }
