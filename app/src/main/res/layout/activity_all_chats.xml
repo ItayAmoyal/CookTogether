@@ -5,7 +5,17 @@
     android:orientation="vertical"
     android:background="#F5F5F5">
 
-    <!-- כותרת -->
+    <ImageButton
+        android:layout_marginTop="40dp"
+        android:id="@+id/backButton"
+        android:layout_width="149dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:clipToOutline="true"
+        android:contentDescription="חזרה אחורה"
+        android:padding="6dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back_icon" />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="70dp"

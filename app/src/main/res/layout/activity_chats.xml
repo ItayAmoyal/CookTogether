@@ -3,8 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <ImageButton
+        android:layout_marginTop="40dp"
+        android:id="@+id/backButton"
+        android:layout_width="149dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:clipToOutline="true"
+        android:contentDescription="חזרה אחורה"
+        android:padding="6dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/back_icon" />
     <TextView
+        android:layout_marginTop="10dp"
         android:id="@+id/txtChatWith"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -24,6 +35,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_marginBottom="40dp"
         android:orientation="horizontal"
         android:padding="8dp"
         android:background="#EEEEEE">

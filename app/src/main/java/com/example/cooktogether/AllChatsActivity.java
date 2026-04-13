@@ -7,6 +7,8 @@ import static com.example.cooktogether.FBRef.refUsers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 
 public class AllChatsActivity extends AppCompatActivity {
     RecyclerView rvAllChats;
+    ImageButton btnBack;
     FirebaseAuth refAuth;
     FirebaseUser user;
     ArrayList<Chat> chatList=new ArrayList<>();
@@ -39,9 +42,17 @@ public class AllChatsActivity extends AppCompatActivity {
         refAuth = FirebaseAuth.getInstance();
         user = refAuth.getCurrentUser();
         rvAllChats = findViewById(R.id.recyclerAllChats);
+        btnBack=findViewById(R.id.backButton);
         chatAdapter = new ChatAdapter(this,chatList);
         rvAllChats.setLayoutManager(new LinearLayoutManager(this));
         rvAllChats.setAdapter(chatAdapter);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AllChatsActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         refAllChats.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import java.util.Date;
 
 public class ChatsActivity extends AppCompatActivity {
     Button btnSend;
+    ImageButton btnBack;
     EditText textSend;
     Boolean chatExits=false;
     User currentUser, otherUser;
@@ -49,6 +51,7 @@ public class ChatsActivity extends AppCompatActivity {
         btnSend=findViewById(R.id.btnSend);
         tvChat=findViewById(R.id.txtChatWith);
         rvChat=findViewById(R.id.rvChats);
+        btnBack=findViewById(R.id.backButton);
         textSend=findViewById(R.id.editMessage);
         rvChat.setLayoutManager(new LinearLayoutManager(this));
         user1=(User) getIntent().getSerializableExtra("user1", User.class);
@@ -63,7 +66,13 @@ public class ChatsActivity extends AppCompatActivity {
             otherUser=user1;
             tvChat.setText(user1.getName());
         }
-
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatsActivity.this, AllChatsActivity.class);
+                startActivity(intent);
+            }
+        });
         messageAdapter=new MessageAdapter(allMessages,currentUser.getUid());
         rvChat.setAdapter(messageAdapter);
         refAllChats.addListenerForSingleValueEvent(new ValueEventListener() {
