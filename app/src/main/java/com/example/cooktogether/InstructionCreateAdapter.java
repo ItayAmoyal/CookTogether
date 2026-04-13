@@ -26,16 +26,19 @@ public class InstructionCreateAdapter extends RecyclerView.Adapter<InstructionCr
     private final Context context;
     private final ArrayList<String> instructionsText;
     private final ArrayList<ArrayList<Bitmap>> instructionImages;
+    private final ArrayList <InstructionItem> allInstructions;
+
     private final OnInstructionDeleteListener deleteListener;
 
     public InstructionCreateAdapter(Context context,
                                    ArrayList<String> instructionsText,
-                                   ArrayList<ArrayList<Bitmap>> instructionImages,
+                                   ArrayList<ArrayList<Bitmap>> instructionImages,ArrayList <InstructionItem> allInstructions,
                                    OnInstructionDeleteListener deleteListener) {
-        this.context = context;
-        this.instructionsText = (instructionsText != null) ? instructionsText : new ArrayList<>();
-        this.instructionImages = (instructionImages != null) ? instructionImages : new ArrayList<>();
-        this.deleteListener = deleteListener;
+        this.context= context;
+        this.instructionsText= (instructionsText != null) ? instructionsText : new ArrayList<>();
+        this.instructionImages= (instructionImages != null) ? instructionImages : new ArrayList<>();
+        this.allInstructions=  (allInstructions != null) ? allInstructions : new ArrayList<>();
+        this.deleteListener= deleteListener;
     }
 
     @NonNull
@@ -63,6 +66,7 @@ public class InstructionCreateAdapter extends RecyclerView.Adapter<InstructionCr
             numOfInstructions--;
             instructionsText.remove(pos);
             instructionImages.remove(pos);
+            allInstructions.remove(pos);
             notifyItemRemoved(pos);
 
             if (deleteListener != null) deleteListener.onInstructionDelete(pos);

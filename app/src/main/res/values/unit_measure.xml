@@ -3,11 +3,11 @@
     <string-array name="unit_measure">
         <item> יחידת מידה:</item>
         <item>גרם</item>
+        <item>יחידות</item>
         <item>קילו</item>
         <item>כפיות</item>
         <item>כפות</item>
         <item>כוסות</item>
-        <item>פאונדים</item>
         <item>מיליטר</item>
     </string-array>
 </resources>

@@ -57,14 +57,9 @@ public class FavoriteRecipes extends AppCompatActivity {
                     }
                 }
                 favRecipes = userCurrent.getFavRecipesId();
-                if (!favRecipes.isEmpty()) {
+                if (favRecipes!=null&&!favRecipes.isEmpty()) {
                     getRecipes();
-                } else {
-
-
-                    //
                 }
-
             }
 
             @Override
@@ -85,11 +80,7 @@ public class FavoriteRecipes extends AppCompatActivity {
                         }
                     }
                 }
-
-
-
                 rvFavoriteRecipes.setLayoutManager(new LinearLayoutManager(FavoriteRecipes.this));
-
                 favoritesAdapter = new RecipeAdapter(FavoriteRecipes.this,favoriteRecipes);
                 rvFavoriteRecipes.setAdapter(favoritesAdapter);
                 favoritesAdapter.setOnRecipeClickListener(position -> {

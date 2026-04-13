@@ -124,7 +124,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         spinnerING.setAdapter(adpMeasure);
         spinnerING.setOnItemSelectedListener(this);
         rvInstructions.setLayoutManager(new LinearLayoutManager(this));
-        instructionCreateAdapter = new InstructionCreateAdapter(this, instructionsText, instructionsimages, new InstructionCreateAdapter.OnInstructionDeleteListener() {
+        instructionCreateAdapter = new InstructionCreateAdapter(this, instructionsText, instructionsimages,allInstructions, new InstructionCreateAdapter.OnInstructionDeleteListener() {
             @Override
             public void onInstructionDelete(int position) {
 
@@ -314,7 +314,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
             }
             InstructionItem instructionItem = new InstructionItem(text, allImagesString);
             allInstructions.add(instructionItem);
-            instructionCreateAdapter = new InstructionCreateAdapter(CreateRecipe.this, instructionsText, instructionsimages, new InstructionCreateAdapter.OnInstructionDeleteListener() {
+            instructionCreateAdapter = new InstructionCreateAdapter(CreateRecipe.this, instructionsText, instructionsimages,allInstructions, new InstructionCreateAdapter.OnInstructionDeleteListener() {
                 @Override
                 public void onInstructionDelete(int position) {
 
@@ -368,7 +368,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
                 byte[] imageBytes = IOUtils.toByteArray(stream);
                 Map<String, Object> imageMap = new HashMap<>();
                 imageMap.put("ImageName", fileName);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                Bitmap bitmap =  BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
                 byte[] compressed = baos.toByteArray();

@@ -8,6 +8,7 @@
     android:background="#F6F7FB">
 
     <ImageButton
+        android:layout_marginTop="30dp"
         android:id="@+id/backButton2"
         android:layout_width="149dp"
         android:layout_height="50dp"

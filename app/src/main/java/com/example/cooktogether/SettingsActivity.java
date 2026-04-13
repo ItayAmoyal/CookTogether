@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     Switch btnAlarm;
     String uid;
     User userCurrent;
+    ImageButton btnBack;
     Boolean isActive;
     private AlarmManager alarmManager;
     private PendingIntent alarmIntent;
@@ -46,10 +49,17 @@ public class SettingsActivity extends AppCompatActivity {
         name=findViewById(R.id.tvName);
         email=findViewById(R.id.tvEmail);
         password=findViewById(R.id.tvPassword);
+        btnBack=findViewById(R.id.backButton);
         numOfrecipes=findViewById(R.id.tvRecipesCount);
         btnAlarm=findViewById(R.id.switchReminder);
        FirebaseUser user =refAuth.getCurrentUser();
-
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         uid=user.getUid();
        refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
            @Override
