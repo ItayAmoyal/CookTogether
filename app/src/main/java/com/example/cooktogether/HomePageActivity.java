@@ -154,9 +154,11 @@ public class HomePageActivity extends AppCompatActivity {
                         activefilteredRecipes.clear();
                         for (Recipe recipe : allRecipes) {
                             int size = currentText.length();
-                            String recipeName = recipe.getName().substring(0, size);
-                            if (recipeName.equals(currentText)) {
-                                filteredRecipes2.add(recipe);
+                            if(recipe.getName().length()>=size) {
+                                String recipeName = recipe.getName().substring(0, size);
+                                if (recipeName.equals(currentText)) {
+                                    filteredRecipes2.add(recipe);
+                                }
                             }
                         }
                         for (Recipe recipe : allRecipes) {
@@ -164,16 +166,14 @@ public class HomePageActivity extends AppCompatActivity {
                                 activefilteredRecipes.add(recipe);
                             }
                         }
+                        displayedREcipes.clear();
+
                         if(flagfilter2>0) {
-                            displayedREcipes.clear();
                             displayedREcipes.addAll(activefilteredRecipes);
-                            recipeAdapter.notifyDataSetChanged();
                         }
-                        else{
-                            displayedREcipes.clear();
-                            displayedREcipes.addAll(filteredRecipes2);
-                            recipeAdapter.notifyDataSetChanged();
+                        else{ displayedREcipes.addAll(filteredRecipes2);
                         }
+                        recipeAdapter.notifyDataSetChanged();
                         }
 
                     @Override
