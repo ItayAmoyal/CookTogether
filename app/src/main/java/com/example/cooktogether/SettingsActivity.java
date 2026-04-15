@@ -96,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
                    Intent intent = new Intent(SettingsActivity.this, AlarmNoti.class);
                    alarmIntent = PendingIntent.getBroadcast(SettingsActivity.this, 1, intent, PendingIntent.FLAG_IMMUTABLE);
                    alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-                   alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+                   alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5*1000, alarmIntent);
                }
                else if(flag==1) {
                    if (alarmManager != null) {

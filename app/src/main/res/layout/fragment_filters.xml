@@ -51,13 +51,6 @@
         android:text="פרווה"
         android:textSize="18sp"
         android:paddingVertical="10dp" />
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchother"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="אחר"
-        android:textSize="18sp"
-        android:paddingVertical="10dp" />
     <!-- Spacer -->
     <View
         android:layout_width="match_parent"

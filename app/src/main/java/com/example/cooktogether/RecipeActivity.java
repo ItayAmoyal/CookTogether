@@ -321,14 +321,19 @@ public class RecipeActivity extends AppCompatActivity {
     private void AddCommment(String correctID){
         String comment=writeComment.getText().toString();
         String userName=userCurrent.getName();
-        Comments newComment=new Comments(userName,comment,correctID);
-        String keyId1=FBRef.refComments.push().getKey();
-        newComment.setKeyId(keyId1);
-        FBRef.refComments.child(keyId1).setValue(newComment);
-        commentsFireBase.add(newComment);
-        CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
-        rvComments.setAdapter(commentsAdapter);
-        Toast.makeText(this, "התגובה נוספה", Toast.LENGTH_SHORT).show();
+        if(comment.length()>0) {
+            Comments newComment = new Comments(userName, comment, correctID);
+            String keyId1 = FBRef.refComments.push().getKey();
+            newComment.setKeyId(keyId1);
+            FBRef.refComments.child(keyId1).setValue(newComment);
+            commentsFireBase.add(newComment);
+            CommentsAdapter commentsAdapter = new CommentsAdapter(this, commentsFireBase);
+            rvComments.setAdapter(commentsAdapter);
+            Toast.makeText(this, "התגובה נוספה", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "לא ניתן להגיב תגובה ריקה", Toast.LENGTH_SHORT).show();
+        }
     }
     private void AddRating(int num){
         if( activeRecipe.AddRating(num,user.getUid())==true) {

@@ -20,7 +20,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class FiltersFragment extends DialogFragment {
 
- private SwitchMaterial switchMilk, switchMeat, switchParve,switchOther;
+ private SwitchMaterial switchMilk, switchMeat, switchParve;
     private SwitchMaterial switchKosher, switchNotKosher;
     private Button confirm, back;
     private int place=0;
@@ -47,7 +47,6 @@ public class FiltersFragment extends DialogFragment {
  switchMeat = view.findViewById(R.id.switchMeat);
  switchParve = view.findViewById(R.id.switchParve);
  switchKosher = view.findViewById(R.id.switchKosher);
- switchOther=view.findViewById(R.id.switchother);
  switchNotKosher = view.findViewById(R.id.switchNotKosher);
  confirm=view.findViewById(R.id.enter);
  back=view.findViewById(R.id.back);
@@ -58,13 +57,11 @@ public class FiltersFragment extends DialogFragment {
  if (buttonView.getId() != R.id.switchMilk) switchMilk.setChecked(false);
  if (buttonView.getId() != R.id.switchMeat) switchMeat.setChecked(false);
  if (buttonView.getId() != R.id.switchParve) switchParve.setChecked(false);
- if (buttonView.getId() != R.id.switchother) switchOther.setChecked(false);
  };
 
  switchMilk.setOnCheckedChangeListener(singleSelectListener);
  switchMeat.setOnCheckedChangeListener(singleSelectListener);
  switchParve.setOnCheckedChangeListener(singleSelectListener);
- switchOther.setOnCheckedChangeListener(singleSelectListener);
      back.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
@@ -86,8 +83,6 @@ public class FiltersFragment extends DialogFragment {
                  type = "meat";
              } else if (switchParve.isChecked()) {
                  type = "parve";
-             }else if (switchOther.isChecked()) {
-                     type = "other";
              } else {
                  if(place==2) {
                      Toast.makeText(requireContext(), "חייב לבחור אחד", Toast.LENGTH_SHORT).show();
@@ -141,7 +136,6 @@ public class FiltersFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        //קובע גודל: 90% מהמסך
         if (getDialog() != null && getDialog().getWindow() != null) {
             DisplayMetrics dm = new DisplayMetrics();
             requireActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);

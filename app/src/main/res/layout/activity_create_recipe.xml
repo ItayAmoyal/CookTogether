@@ -272,23 +272,16 @@
             android:layout_marginBottom="25dp"
             android:layout_marginTop="24dp">
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ביטול"
-                android:gravity="center"
-                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/btnCreateRecipe"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="יצירה"
+                android:backgroundTint="#C10D4B"
+                android:layout_weight="1"
                 android:gravity="center"
+                android:text="יצירה"
                 android:textAlignment="center" />
         </LinearLayout>
 
