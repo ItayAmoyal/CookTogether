@@ -32,6 +32,9 @@ public class AllChatsActivity extends AppCompatActivity {
     ImageButton btnBack;
     FirebaseAuth refAuth;
     FirebaseUser user;
+    ArrayList<ChatShow>showChats=new ArrayList<>() ;
+    String otherUid="";
+    String otherName="";
     ArrayList<Chat> chatList=new ArrayList<>();
     User user1=new User(),user2=new User();
     ChatAdapter chatAdapter;
@@ -42,8 +45,8 @@ public class AllChatsActivity extends AppCompatActivity {
         refAuth = FirebaseAuth.getInstance();
         user = refAuth.getCurrentUser();
         rvAllChats = findViewById(R.id.recyclerAllChats);
-        btnBack=findViewById(R.id.backButton);
-        chatAdapter = new ChatAdapter(this,chatList);
+        btnBack = findViewById(R.id.backButton);
+        chatAdapter = new ChatAdapter(this, showChats);
         rvAllChats.setLayoutManager(new LinearLayoutManager(this));
         rvAllChats.setAdapter(chatAdapter);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -53,56 +56,94 @@ public class AllChatsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        refAllChats.addListenerForSingleValueEvent(new ValueEventListener() {
+        if (showChats != null) {
+            chatAdapter.setOnChatClickListener(position -> {
+                Chat chat = showChats.get(position).getChat();
+                getUsers(chat);
+            });
+            refAllChats.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    chatList.clear();
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Chat chat = data.getValue(Chat.class);
+                        if (chat.getUser2Uid().equals(user.getUid()) || chat.getUser1Uid().equals(user.getUid())) {
+                            chatList.add(chat);
+                        }
+                    }
+                    showChats.clear();
+                   getOtherName();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+    public  void getUsers(Chat chat){
+        refUsers.child(chat.getUser1Uid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chatList.clear();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Chat chat = data.getValue(Chat.class);
-                    if (chat.getUser2Uid().equals(user.getUid()) || chat.getUser1Uid().equals(user.getUid())) {
-                        chatList.add(chat);
+                if(snapshot.exists()){
+                        user1 = snapshot.getValue(User.class);
+                }
+                refUsers.child(chat.getUser2Uid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            user2 = snapshot.getValue(User.class);
+                            Intent intent=new Intent(AllChatsActivity.this,ChatsActivity.class);
+                            intent.putExtra("user1", user1);
+                            intent.putExtra("user2", user2);
+                            startActivity(intent);
+                        }
                     }
-                }
-                chatAdapter.notifyDataSetChanged();
-                //
-                if (chatList != null) {
-                    chatAdapter.setOnChatClickListener(position -> {
-                    Chat chat=chatList.get(position);
-                    getUsers(chat);
 
-                    });
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
+
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
-    public  void getUsers(Chat chat){
-        refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    String str = data.getKey();
-                    if (chat.getUser1Uid().equals(str)) {
-                        user1 = data.getValue(User.class);
+    public void getOtherName(){
+        int[]loaded={0};
+        for(Chat chat: chatList) {
+            otherName = "";
+            otherUid = "";
+            if (chat.getUser2Uid().equals(user.getUid())) {
+                otherUid =chat.getUser1Uid();
+            } else {
+                otherUid = chat.getUser2Uid();
+            }
+            String finalOtherUid = otherUid;
+            refUsers.child(otherUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        User user =snapshot.getValue(User.class);
+                            otherName = user.getName();
+                            loaded[0]++;
+                            showChats.add(new ChatShow(chat,otherName));
+                            if(loaded[0]==chatList.size()){
+                                chatAdapter.notifyDataSetChanged();
+                            }
+                        }
                     }
-                    if (chat.getUser2Uid().equals(str)) {
-                        user2 = data.getValue(User.class);
-                    }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
-                Intent intent=new Intent(AllChatsActivity.this,ChatsActivity.class);
-                intent.putExtra("user1", user1);
-                intent.putExtra("user2", user2);
-                startActivity(intent);
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            });
+        }
     }
 }

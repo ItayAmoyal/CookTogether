@@ -7,14 +7,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,10 +21,10 @@ import java.util.ArrayList;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
-    private ArrayList<Chat> chatList;
+    private ArrayList<ChatShow> chatList;
     private Context context;
     private ChatAdapter.OnChatClickListener listener;
-    public ChatAdapter(Context context, ArrayList<Chat> chatList) {
+    public ChatAdapter(Context context, ArrayList<ChatShow> chatList) {
         this.context = context;
         this.chatList = chatList;
     }
@@ -44,25 +41,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+        holder.txtName.setText("...");
         FirebaseUser user=refAuth.getCurrentUser();
-        Chat chat = chatList.get(position);
-        String uid;
-        if(chat.getUser2Uid().equals(user.getUid()))
-        {
-            uid=chat.getUser1Uid();
-        }
-        else{
-            uid=chat.getUser2Uid();
-        }
+        Chat chat = chatList.get(position).getChat();
+        String otherUid;
 
-        refUsers.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    String str = snapshot.getKey();
-                    if (uid.equals(str)) {
-                        String name = snapshot.getValue(User.class).getName();
-                     holder.txtName.setText(name);
+                     holder.txtName.setText(chatList.get(position).getOtherName());
                         if(chat.getAllMessages() != null && !chat.getAllMessages().isEmpty()) {
                             Message lastMessage = chat.getAllMessages().get(chat.getAllMessages().size() - 1);
                             String text = lastMessage.getText();
@@ -71,16 +55,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                             holder.txtLastMessage.setText(text);
                         }
                     }
-                }
-            }
 
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
     public interface OnChatClickListener {
         void onChatClick(int position);
     }

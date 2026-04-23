@@ -1,12 +1,10 @@
 package com.example.cooktogether;
 
-import static com.example.cooktogether.FBRef.FBDB;
 import static com.example.cooktogether.FBRef.refAllRecipes;
 import static com.example.cooktogether.FBRef.refAuth;
 import static com.example.cooktogether.FBRef.refImages;
 import static com.example.cooktogether.FBRef.refUsers;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -15,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,11 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.Blob;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,8 +61,8 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<String> instructionsText = new ArrayList<>();
     ArrayList<ArrayList<Bitmap>> instructionsimages = new ArrayList<>();
 
-    IngrediantCreateAdapter ingredientsAdapter;
-    ImageAdapter imageAdapter;
+    IngredientCreateAdapter ingredientsAdapter;
+    EditImageInstractionsAdapter imageAdapter;
     InstructionCreateAdapter instructionCreateAdapter;
     String[] arraydifficulty, unitMeasure;
     ImageView recipeImage;
@@ -103,7 +97,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         ingredientAmount = findViewById(R.id.IngredientsAmount);
         btnAddIngredient = findViewById(R.id.btnAddIngredient);
         rvImages = findViewById(R.id.rvImagesinstructions);
-        imageAdapter = new ImageAdapter(this, allImages, allImagesID, new ImageAdapter.OnDeleteListener() {
+        imageAdapter = new EditImageInstractionsAdapter(this, allImages, allImagesID, new EditImageInstractionsAdapter.OnDeleteListener() {
             @Override
             public void onDelete(int position, Bitmap bitmap) {
 
@@ -112,7 +106,7 @@ public class CreateRecipe extends AppCompatActivity implements AdapterView.OnIte
         rvImages.setLayoutManager(new LinearLayoutManager(this));
         rvImages.setAdapter(imageAdapter);
         rvIngrediant.setLayoutManager(new LinearLayoutManager(this));
-        ingredientsAdapter = new IngrediantCreateAdapter(this, allIngredients);
+        ingredientsAdapter = new IngredientCreateAdapter(this, allIngredients);
         rvIngrediant.setAdapter(ingredientsAdapter);
         arraydifficulty = getResources().getStringArray(R.array.difficulty_levels);
         adpDifficulty = new ArrayAdapter<>(CreateRecipe.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, arraydifficulty);

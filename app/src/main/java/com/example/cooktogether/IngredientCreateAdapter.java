@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class IngrediantCreateAdapter extends RecyclerView.Adapter<IngrediantCreateAdapter.IngredientViewHolder> {
+public class IngredientCreateAdapter extends RecyclerView.Adapter<IngredientCreateAdapter.IngredientViewHolder> {
 
     private ArrayList<Ingredient> ingredients;
     private Context context;
 
-    public IngrediantCreateAdapter(Context context, ArrayList<Ingredient> ingredients) {
+    public IngredientCreateAdapter(Context context, ArrayList<Ingredient> ingredients) {
         this.context = context;
         this.ingredients = ingredients;
     }
@@ -46,14 +46,6 @@ public class IngrediantCreateAdapter extends RecyclerView.Adapter<IngrediantCrea
         return ingredients.size();
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
-        notifyItemInserted(ingredients.size() - 1);
-    }
-
-    public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
-    }
 
     class IngredientViewHolder extends RecyclerView.ViewHolder {
 

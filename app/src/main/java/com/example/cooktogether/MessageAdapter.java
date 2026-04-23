@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
 
     ArrayList<Message> messageList;
-    String sentUid;
+    String myUser;
 
     public MessageAdapter(ArrayList<Message> messageList,String sentUid){
         this.messageList=messageList;
-        this.sentUid=sentUid;
+        this.myUser =sentUid;
     }
 
     @NonNull
@@ -42,7 +42,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.txtMessage.setText(message.getText());
         holder.txtTime.setText(message.getTime());
 
-        if(message.getSentMessage().equals(sentUid)){
+        if(message.getSentMessage().equals(myUser)){
 
             holder.layoutMessage.setGravity(Gravity.START);
             holder.cardMessage.setCardBackgroundColor(Color.parseColor("#DCF8C6"));

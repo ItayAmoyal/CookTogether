@@ -1,112 +1,139 @@
 package com.example.cooktogether;
 
-import static com.example.cooktogether.FBRef.refAuth;
+import static com.example.cooktogether.FBRef.refImages;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
     RecyclerView rvAllrecipes;
-    ImageButton btnCreateRecipe, btnFilters,btnAi,settingsBtn,btnFavRecipes;
+    ImageButton btnCreateRecipe, btnFilters, btnAi, settingsBtn, btnFavRecipes;
     EditText etSerchBar;
-    int flagFilter=0,flagfilter2;
+    int flagFilter = 0, flagfilter2;
     RecipeAdapter recipeAdapter;
-
     ImageButton btnChats;
-    String filterType="",filterKashroot="";
-    ArrayList<Recipe>filteredRecipes1=new ArrayList<>();
-    ArrayList<Recipe>filteredRecipes2=new ArrayList<>();
-    ArrayList<Recipe>activefilteredRecipes=new ArrayList<>();
-    ArrayList<Recipe>displayedREcipes=new ArrayList<>();
-    ArrayList<Recipe> allRecipes=new ArrayList<>();
+    String currentkashroot="all",  currentType="all";
+    String filterType = "", filterKashroot = "";
+    ArrayList<RecipeShow> recipesAfterFilter = new ArrayList<>();
+    ArrayList<RecipeShow> recipesAfterTextChange = new ArrayList<>();
+    ArrayList<RecipeShow> allShowRecipes = new ArrayList<>();
+    ArrayList<RecipeShow> displayedRecipes = new ArrayList<>();
+    ArrayList<Recipe> allRecipes = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        rvAllrecipes=findViewById(R.id.rvAllRecipes);
-        btnAi=findViewById(R.id.recipeButton3);
-        btnFilters=findViewById(R.id.FilterButton);
-        btnChats=findViewById(R.id.recipeButton5);
-        btnFavRecipes=findViewById(R.id.recipeButton4);
-        settingsBtn=findViewById(R.id.buttonSettings);
-        etSerchBar=findViewById(R.id.editTextSearch);
-        btnCreateRecipe=findViewById(R.id.recipeButton2);
+        rvAllrecipes = findViewById(R.id.rvAllRecipes);
+        btnAi = findViewById(R.id.recipeButton3);
+        btnFilters = findViewById(R.id.FilterButton);
+        btnChats = findViewById(R.id.recipeButton5);
+        btnFavRecipes = findViewById(R.id.recipeButton4);
+        settingsBtn = findViewById(R.id.buttonSettings);
+        etSerchBar = findViewById(R.id.editTextSearch);
+        btnCreateRecipe = findViewById(R.id.recipeButton2);
+
+        rvAllrecipes.setLayoutManager(new LinearLayoutManager(HomePageActivity.this));
+        recipeAdapter = new RecipeAdapter(HomePageActivity.this, displayedRecipes);
+        rvAllrecipes.setAdapter(recipeAdapter);
+
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomePageActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
         btnAi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomePageActivity.this,AiActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, AiActivity.class);
                 startActivity(intent);
             }
         });
         btnCreateRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomePageActivity.this,CreateRecipe.class);
+                Intent intent = new Intent(HomePageActivity.this, CreateRecipe.class);
                 startActivity(intent);
             }
         });
         btnChats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomePageActivity.this, AllChatsActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, AllChatsActivity.class);
                 startActivity(intent);
             }
         });
         btnFavRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomePageActivity.this,FavoriteRecipes.class);
+                Intent intent = new Intent(HomePageActivity.this, FavoriteRecipes.class);
                 startActivity(intent);
             }
         });
+        ChooseFilters();
         //קריאת נתונים
         ShowAllRecipes();
     }
-    private void ShowAllRecipes(){
+
+    private void ShowAllRecipes() {
         FBRef.refAllRecipes.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    Recipe currentRecipe= data.getValue(Recipe.class);
-                   allRecipes.add(currentRecipe);
-                   filteredRecipes2.add(currentRecipe);
-                   filteredRecipes1.add(currentRecipe);
+                    Recipe currentRecipe = data.getValue(Recipe.class);
+                    allRecipes.add(currentRecipe);
                 }
-                rvAllrecipes.setLayoutManager(new LinearLayoutManager(HomePageActivity.this));
-               displayedREcipes = new ArrayList<>();
-                displayedREcipes.addAll(allRecipes);
+                int[] LoadedCount = {0};
+                for (Recipe recipe : allRecipes) {
+                    String pictureString = recipe.getPicture();
+                    if (pictureString != null) {
+                        DocumentReference docRef = refImages.document(pictureString);
+                        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {
+                                    Blob blob = documentSnapshot.getBlob("ImageData");
+                                    if (blob != null) {
+                                        byte[] bytes = blob.toBytes();
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        displayedRecipes.add(new RecipeShow(recipe, bitmap));
+                                        allShowRecipes.add(new RecipeShow(recipe, bitmap));
+                                        LoadedCount[0]++;
+                                        if (LoadedCount[0] == allRecipes.size()) {
+                                            recipeAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            }
+                        });
 
-                recipeAdapter = new RecipeAdapter(HomePageActivity.this, displayedREcipes);
-                rvAllrecipes.setAdapter(recipeAdapter);
-
+                    }
+                }
                 btnFilters.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -120,61 +147,11 @@ public class HomePageActivity extends AppCompatActivity {
                         fragment.show(getSupportFragmentManager(), "FILTERS_DIALOG");
                     }
                 });
-                getSupportFragmentManager().setFragmentResultListener(
-                        "filters_result",
-                        HomePageActivity.this,
-                        (requestKey, bundle) -> {
-                            filterType = bundle.getString("type");
-                            filterKashroot = bundle.getString("kashroot");
-                            flagFilter++;
-                            filteredRecipes1.clear();
-                            activefilteredRecipes.clear();
-                            for(Recipe recipe:allRecipes){
-                                if(((filterKashroot.equals(recipe.getFilterKashroot())||filterKashroot.equals("all"))&&(filterType.equals(recipe.getFilterType())||filterType.equals("all")))){
-                                    filteredRecipes1.add(recipe);
-                                }
-                            }
-                            for(Recipe recipe:allRecipes){
-                                if(filteredRecipes1.contains(recipe)&&filteredRecipes2.contains(recipe)){
-                                    activefilteredRecipes.add(recipe);
-                                }
-                            }
-                            displayedREcipes.clear();
-                            displayedREcipes.addAll(activefilteredRecipes);
-                            recipeAdapter.notifyDataSetChanged();
-                        }
-                );
                 etSerchBar.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void afterTextChanged(Editable s) {
-                        String currentText = etSerchBar.getText().toString();
-                        flagFilter++;
-                        flagfilter2++;
-                        filteredRecipes2.clear();
-                        activefilteredRecipes.clear();
-                        for (Recipe recipe : allRecipes) {
-                            int size = currentText.length();
-                            if(recipe.getName().length()>=size) {
-                                String recipeName = recipe.getName().substring(0, size);
-                                if (recipeName.equals(currentText)) {
-                                    filteredRecipes2.add(recipe);
-                                }
-                            }
-                        }
-                        for (Recipe recipe : allRecipes) {
-                            if (filteredRecipes1.contains(recipe) && filteredRecipes2.contains(recipe)) {
-                                activefilteredRecipes.add(recipe);
-                            }
-                        }
-                        displayedREcipes.clear();
-
-                        if(flagfilter2>0) {
-                            displayedREcipes.addAll(activefilteredRecipes);
-                        }
-                        else{ displayedREcipes.addAll(filteredRecipes2);
-                        }
-                        recipeAdapter.notifyDataSetChanged();
-                        }
+                        FilterRecipe();
+                    }
 
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -190,17 +167,57 @@ public class HomePageActivity extends AppCompatActivity {
 
                 recipeAdapter.setOnRecipeClickListener(position -> {
                     Recipe clicked;
-                        clicked = displayedREcipes.get(position);
-                    Intent intent=new Intent(HomePageActivity.this, RecipeActivity.class);
-                    intent.putExtra("Rid",clicked.getRecipeID());
+                    clicked = displayedRecipes.get(position).getRecipe();
+                    Intent intent = new Intent(HomePageActivity.this, RecipeActivity.class);
+                    intent.putExtra("Rid", clicked.getRecipeID());
                     startActivity(intent);
                 });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(HomePageActivity.this, "שגיאה בטעינת הנתונים", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    public void ChooseFilters() {
+        getSupportFragmentManager().setFragmentResultListener(
+                "filters_result",
+                HomePageActivity.this,
+                (requestKey, bundle) -> {
+                    currentType = bundle.getString("type");
+                    currentkashroot = bundle.getString("kashroot");
+                    FilterRecipe();
+
+                }
+        );
+    }
+
+    public void FilterRecipe() {
+        displayedRecipes.clear();
+        String currentText = etSerchBar.getText().toString();
+        Boolean isTextTrue=false;
+        for(RecipeShow recipe:allShowRecipes){
+            isTextTrue=false;
+            int size = currentText.length();
+            if (currentText.length() == 0) {
+                isTextTrue=true;
+            }
+            if (recipe.getRecipe().getName().length() >= size) {
+                String recipeName = recipe.getRecipe().getName().toLowerCase();
+                String searchText = currentText.toLowerCase();
+                if(recipeName.startsWith(searchText)){
+                    isTextTrue=true;
+                }
+                if (isTextTrue&&
+                        (recipe.getRecipe().getFilterKashroot().equals(currentkashroot)||currentkashroot.equals("all"))&&
+                        (recipe.getRecipe().getFilterType().equals(currentType)||currentType.equals("all"))){
+                   displayedRecipes.add(recipe);
+                }
+            }
+        }
+        recipeAdapter.notifyDataSetChanged();
     }
 }

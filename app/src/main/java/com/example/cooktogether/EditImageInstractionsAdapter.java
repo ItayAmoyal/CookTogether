@@ -4,7 +4,6 @@ import static com.example.cooktogether.FBRef.refImages;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
-import org.w3c.dom.Document;
-
 import java.util.ArrayList;
-import java.util.BitSet;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageVH> {
+public class EditImageInstractionsAdapter extends RecyclerView.Adapter<EditImageInstractionsAdapter.ImageVH> {
 
     public interface OnDeleteListener {
         void onDelete(int position, Bitmap bitmap);
@@ -33,9 +28,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageVH> {
     private ArrayList<String> imagesID;
     private OnDeleteListener deleteListener;
 
-    public ImageAdapter(Context context,
-                        ArrayList<Bitmap> images, ArrayList<String> imagesID,
-                        OnDeleteListener deleteListener) {
+    public EditImageInstractionsAdapter(Context context,
+                                        ArrayList<Bitmap> images, ArrayList<String> imagesID,
+                                        OnDeleteListener deleteListener) {
         this.context = context;
         this.images = (images != null) ? images : new ArrayList<>();
         this.imagesID = (images != null) ? imagesID : new ArrayList<>();
@@ -66,6 +61,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageVH> {
                 return;
 
             Bitmap removed = images.remove(pos);
+            imagesID.remove(pos);
             notifyItemRemoved(pos);
 
             if (deleteListener != null) {
@@ -83,9 +79,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageVH> {
     }
 
     public void addImage(Bitmap bitmap,String imageID) {
-        if (bitmap == null) return;
+        if (bitmap == null||imageID == null)
+            return;
         images.add(bitmap);
-        if (imageID == null) return;
         imagesID.add(imageID);
         notifyItemInserted(imagesID.size() - 1);
     }

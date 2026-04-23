@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RecipeActivity extends AppCompatActivity {
     private static final String CHANNEL_ID="noti_ID";
@@ -59,6 +60,7 @@ public class RecipeActivity extends AppCompatActivity {
     User userCurrent=new User(),userMadeRecipe=new User();
     FirebaseUser user =refAuth.getCurrentUser();
     Button submitComment, submitRating;
+    ArrayList<InstructionsShow> instructionsShows;
     ArrayList<String> ridFirebase = new ArrayList<>();
     ArrayList<Comments> commentsFireBase = new ArrayList<>();
 
@@ -119,15 +121,11 @@ public class RecipeActivity extends AppCompatActivity {
         //get the RecipeId+User
         Intent intent = getIntent();
         String correctRid = intent.getStringExtra("Rid");
-        refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+        refUsers.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    String str = data.getKey();
-                    if (user.getUid().equals(str)) {
-                        userCurrent = data.getValue(User.class);
-                    }
-                }
+
+                userCurrent = snapshot.getValue(User.class);
             }
 
 
@@ -136,7 +134,6 @@ public class RecipeActivity extends AppCompatActivity {
 
             }
         });
-
         //קריאת נתונים
         GetRecipeFromFireBase(correctRid);
 
@@ -155,12 +152,17 @@ public class RecipeActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddCommment(correctRid);
             }
         });
+
+
         submitRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,29 +170,31 @@ public class RecipeActivity extends AppCompatActivity {
                 AddRating(GetRating());
             }
         });
+
+
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activeRecipe != null && userCurrent != null) {
-                    if (userCurrent.getFavRecipesId() == null) {
-                        userCurrent.setFavRecipesId(new ArrayList<>());
-                    }
-                    if (userCurrent.AddFavRecipesId(activeRecipe.getRecipeID())) {
-                        refUsers.child(userCurrent.getUid()).setValue(userCurrent);
-                        Toast.makeText(RecipeActivity.this, "המתכון נוסף למועדפים!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(RecipeActivity.this, "מתכון זה כבר נוסף למועדפים ", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                setFavorieRecipe();
             }
         });
     }
 
     //פעולות------------------------------------------------------------------
 
-
-
-
+    public void setFavorieRecipe(){
+        if (activeRecipe != null && userCurrent != null) {
+            if (userCurrent.getFavRecipesId() == null) {
+                userCurrent.setFavRecipesId(new ArrayList<>());
+            }
+            if (userCurrent.AddFavRecipesId(activeRecipe.getRecipeID())) {
+                refUsers.child(userCurrent.getUid()).setValue(userCurrent);
+                Toast.makeText(RecipeActivity.this, "המתכון נוסף למועדפים!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(RecipeActivity.this, "מתכון זה כבר נוסף למועדפים ", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
 
@@ -205,20 +209,11 @@ public class RecipeActivity extends AppCompatActivity {
                     Toast.makeText(RecipeActivity.this, "המתכון לא נמצא", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Recipe recipeData = data.getValue(Recipe.class);
-                    activeRecipe = new Recipe(recipeData);
-                }
-                //קבלת היוזר שהכין את המתכון
-                refUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                activeRecipe = snapshot.getValue(Recipe.class);
+                refUsers.child(activeRecipe.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot data : snapshot.getChildren()) {
-                            String str = data.getKey();
-                            if (activeRecipe.getUid().equals(str)) {
-                                userMadeRecipe = data.getValue(User.class);
-                            }
-                        }
+                        userMadeRecipe = snapshot.getValue(User.class);
                     }
 
 
@@ -245,7 +240,6 @@ public class RecipeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 commentsFireBase.clear();
-                ridFirebase.clear();
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Comments commentsData = data.getValue(Comments.class);
                     commentsFireBase.add(commentsData);
@@ -307,8 +301,54 @@ public class RecipeActivity extends AppCompatActivity {
         rvInstructions.setHasFixedSize(false);
         rvInstructions.setNestedScrollingEnabled(false);
         //
-        InstructionsAdapter instructionsAdapter=new InstructionsAdapter(this,activeRecipe.getInstructions());
-        rvInstructions.setAdapter(instructionsAdapter);
+        instructionsShows =
+                new ArrayList<>(Collections.nCopies(
+                        activeRecipe.getInstructions().size(), null));
+        int[]LoadedCount1={0};
+        for (int i = 0; i < activeRecipe.getInstructions().size(); i++) {
+            int index = i;
+            InstructionItem instructionItem = activeRecipe.getInstructions().get(i);
+            int[] LoadedCount = {0};
+            ArrayList<String> images = instructionItem.getFileName();
+            ArrayList<Bitmap> allImagesBitMap = new ArrayList<>();
+            if (images != null&&!images.isEmpty()) {
+                for (String documentID : images) {
+                    DocumentReference docRef = refImages.document(documentID);
+                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                Blob blob = documentSnapshot.getBlob("ImageData");
+                                if (blob != null) {
+                                    byte[] bytes = blob.toBytes();
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    allImagesBitMap.add(bitmap);
+                                    LoadedCount[0]++;
+                                    if (LoadedCount[0] == images.size()) {
+                                        LoadedCount1[0]++;
+                                        instructionsShows.set(index, new InstructionsShow(instructionItem, allImagesBitMap));
+                                    }
+                                    if (LoadedCount1[0] == activeRecipe.getInstructions().size()) {
+                                        InstructionsAdapter instructionsAdapter = new InstructionsAdapter(RecipeActivity.this, instructionsShows);
+                                        rvInstructions.setAdapter(instructionsAdapter);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            else {
+                instructionsShows.set(index, new InstructionsShow(instructionItem, allImagesBitMap));
+                LoadedCount1[0]++;
+
+                if (LoadedCount1[0] == activeRecipe.getInstructions().size()) {
+                    InstructionsAdapter adapter =
+                            new InstructionsAdapter(RecipeActivity.this, instructionsShows);
+                    rvInstructions.setAdapter(adapter);
+                }
+            }
+        }
         //
         rvComments.setLayoutManager(new LinearLayoutManager(this));
         CommentsAdapter commentsAdapter=new CommentsAdapter(this,commentsFireBase);
@@ -348,7 +388,6 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     private int GetRating(){
-        ImageButton[] ratingsSet = {rating1, rating2, rating3, rating4, rating5};
         int count=0;
         for (int i = 0; i < 5; i++) {
             if(ratingsOn[i]==true)

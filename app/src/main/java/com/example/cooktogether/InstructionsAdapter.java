@@ -34,10 +34,10 @@ import java.util.ArrayList;
 public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapter.InstructionViewHolder> {
 
     private Context context;
-    private ArrayList<InstructionItem> instructionList;
+    private ArrayList<InstructionsShow> instructionList;
     private ImagesOnlyAdapter imagesOnlyAdapter;
 
-    public InstructionsAdapter(Context context, ArrayList<InstructionItem> instructionList) {
+    public InstructionsAdapter(Context context, ArrayList<InstructionsShow> instructionList) {
         this.context = context;
         this.instructionList = instructionList;
     }
@@ -52,35 +52,12 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull InstructionViewHolder holder, int position) {
-        InstructionItem item = instructionList.get(position);
-        final int[] loadedCount = {0};;
+        int currentPosition = holder.getAdapterPosition();
+        if (currentPosition == RecyclerView.NO_POSITION) return;
+        InstructionItem item = instructionList.get(position).getInstructionItem();
         holder.textInstruction.setText(item.getInstructionText());
-        ArrayList<String> images = item.getFileName();
-        ArrayList<Bitmap> allImagesBitMap=new ArrayList<>();
-        if(images != null) {
-            for (String documentID : images) {
-                DocumentReference docRef = refImages.document(documentID);
-                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            Blob blob = documentSnapshot.getBlob("ImageData");
-                            if (blob != null) {
-                                Log.d("TEST_FIRESTORE", "loading image1111: ");
-                                byte[] bytes = blob.toBytes();
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                allImagesBitMap.add(bitmap);
-                                loadedCount[0]++;
-                                if(loadedCount[0]==images.size()){
-                                    imagesOnlyAdapter = new ImagesOnlyAdapter(context, allImagesBitMap);
-                                    holder.rvImageInstructions.setAdapter(imagesOnlyAdapter);
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
+        imagesOnlyAdapter = new ImagesOnlyAdapter(context, instructionList.get(position).getBitmaps());
+        holder.rvImageInstructions.setAdapter(imagesOnlyAdapter);
     }
 
     @Override
@@ -88,10 +65,6 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
         return instructionList.size();
     }
 
-    public void addInstruction(InstructionItem instruction) {
-        instructionList.add(instruction);
-        notifyItemInserted(instructionList.size() - 1);
-    }
 
     public static class InstructionViewHolder extends RecyclerView.ViewHolder {
 

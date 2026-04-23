@@ -29,10 +29,10 @@ import java.util.Random;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private Context context;
-    private ArrayList<Recipe> recipes;
+    private ArrayList<RecipeShow> recipes;
     private OnRecipeClickListener listener;
 
-    public RecipeAdapter(Context context, ArrayList<Recipe> recipes) {
+    public RecipeAdapter(Context context, ArrayList<RecipeShow> recipes) {
         this.context = context;
         this.recipes = recipes;
     }
@@ -61,7 +61,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             else{
             holder.main.setBackgroundResource(R.drawable.bg_recipe_cardblue);
         }
-        Recipe recipe = recipes.get(position);
+        Recipe recipe = recipes.get(position).getRecipe();
         holder.textRecipeName.setText(recipe.getName());
         holder.textCookTime.setText("זמן הכנה: " + recipe.getCookTime());
         ImageView[]ratings= {holder.rating1, holder.rating2, holder.rating3, holder.rating4, holder.rating5};
@@ -71,27 +71,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         for (int i = 0; i < recipe.getAverageRating(); i++) {
             ratings[i].setImageResource(R.drawable.fullstar);
         }
-        String pictureString = recipe.getPicture();
-        if (pictureString != null) {
-            DocumentReference docRef = refImages.document(pictureString);
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        Blob blob = documentSnapshot.getBlob("ImageData");
-                        if (blob != null) {
-                            byte[] bytes = blob.toBytes();
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            holder.imageRecipe.setImageBitmap(bitmap);
-                        }
-                    }
-                }
-            });
-
-
-        } else {
-            holder.imageRecipe.setImageResource(android.R.color.darker_gray);
-        }
+        holder.imageRecipe.setImageBitmap(recipes.get(position).getBitmap());
     }
     public interface OnRecipeClickListener {
         void onRecipeClick(int position);
@@ -101,7 +81,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
     @Override
     public int getItemCount() {
-        return recipes == null ? 0 : recipes.size();
+        if (recipes==null)
+            return 0;
+        else return recipes.size();
     }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
