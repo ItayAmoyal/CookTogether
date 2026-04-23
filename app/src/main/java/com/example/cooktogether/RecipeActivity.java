@@ -1,5 +1,6 @@
 package com.example.cooktogether;
 
+import static com.example.cooktogether.FBRef.refAllRecipes;
 import static com.example.cooktogether.FBRef.refAuth;
 import static com.example.cooktogether.FBRef.refImages;
 import static com.example.cooktogether.FBRef.refUsers;
@@ -201,8 +202,8 @@ public class RecipeActivity extends AppCompatActivity {
 
     //תצוגת המתכון על המסך
     private void GetRecipeFromFireBase(String correctRid) {
-        Query query=FBRef.refAllRecipes.orderByChild("recipeID").equalTo(correctRid);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        refAllRecipes.child(correctRid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
@@ -214,6 +215,7 @@ public class RecipeActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         userMadeRecipe = snapshot.getValue(User.class);
+                        GetComments(correctRid);
                     }
 
 
@@ -222,7 +224,6 @@ public class RecipeActivity extends AppCompatActivity {
 
                     }
                 });
-                GetComments(correctRid);
             }
 
             @Override
